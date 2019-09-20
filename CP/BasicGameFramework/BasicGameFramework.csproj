@@ -1,0 +1,89 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <LangVersion>8.0</LangVersion>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommonBasicStandardLibraries" Version="1.0.80" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+    <PackageReference Include="SkiaSharp" Version="1.68.0" />
+    <PackageReference Include="SkiaSharpGeneralLibrary" Version="1.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\back.png" />
+    <None Remove="Resources\jack_clubs.png" />
+    <None Remove="Resources\jack_diamonds.png" />
+    <None Remove="Resources\jack_hearts.png" />
+    <None Remove="Resources\jack_spades.png" />
+    <None Remove="Resources\king_clubs.png" />
+    <None Remove="Resources\king_diamonds.png" />
+    <None Remove="Resources\king_hearts.png" />
+    <None Remove="Resources\king_spades.png" />
+    <None Remove="Resources\queen_clubs.png" />
+    <None Remove="Resources\queen_diamonds.png" />
+    <None Remove="Resources\queen_hearts.png" />
+    <None Remove="Resources\queen_spades.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\back.png" />
+    <EmbeddedResource Include="Resources\jack_clubs.png" />
+    <EmbeddedResource Include="Resources\jack_diamonds.png" />
+    <EmbeddedResource Include="Resources\jack_hearts.png" />
+    <EmbeddedResource Include="Resources\jack_spades.png" />
+    <EmbeddedResource Include="Resources\king_clubs.png" />
+    <EmbeddedResource Include="Resources\king_diamonds.png" />
+    <EmbeddedResource Include="Resources\king_hearts.png" />
+    <EmbeddedResource Include="Resources\king_spades.png" />
+    <EmbeddedResource Include="Resources\queen_clubs.png" />
+    <EmbeddedResource Include="Resources\queen_diamonds.png" />
+    <EmbeddedResource Include="Resources\queen_hearts.png" />
+    <EmbeddedResource Include="Resources\queen_spades.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="BasicDrawables\BasicClasses\" />
+    <Folder Include="BasicDrawables\Dictionary\" />
+    <Folder Include="BasicDrawables\MiscClasses\" />
+    <Folder Include="BasicEventModels\" />
+    <Folder Include="BasicGameDataClasses\" />
+    <Folder Include="ColorCards\" />
+    <Folder Include="CombinationHelpers\" />
+    <Folder Include="CommandClasses\" />
+    <Folder Include="Dice\" />
+    <Folder Include="Dominos\" />
+    <Folder Include="DrawableListsViewModels\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="GameBoardCollections\" />
+    <Folder Include="GameGraphicsCP\Animations\" />
+    <Folder Include="GameGraphicsCP\BaseGraphics\" />
+    <Folder Include="GameGraphicsCP\Cards\" />
+    <Folder Include="GameGraphicsCP\CheckersChessHelpers\" />
+    <Folder Include="GameGraphicsCP\GameboardPositionHelpers\" />
+    <Folder Include="GameGraphicsCP\GamePieces\" />
+    <Folder Include="GameGraphicsCP\Interfaces\" />
+    <Folder Include="GameGraphicsCP\MiscClasses\" />
+    <Folder Include="MiscViewModels\" />
+    <Folder Include="MultiplayerClasses\Extensions\" />
+    <Folder Include="MultiplayerClasses\InterfaceMessages\" />
+    <Folder Include="MultiplayerClasses\InterfacesForHelpers\" />
+    <Folder Include="MultiplayerClasses\SavedGameClasses\" />
+    <Folder Include="MultiplePilesViewModels\" />
+    <Folder Include="NetworkingClasses\Data\" />
+    <Folder Include="NetworkingClasses\Interfaces\" />
+    <Folder Include="NetworkingClasses\Misc\" />
+    <Folder Include="NetworkingClasses\SocketClasses\" />
+    <Folder Include="StandardImplementations\CrossPlatform\ExtensionClasses\" />
+    <Folder Include="StandardImplementations\CrossPlatform\CommonProportionClasses\" />
+    <Folder Include="ViewModelInterfaces\" />
+    <Folder Include="TestUtilities\" />
+    <Folder Include="Resources\" />
+    <Folder Include="SpecializedGameTypes\YahtzeeStyleHelpers\" />
+    <Folder Include="SpecializedGameTypes\TrickClasses\" />
+    <Folder Include="SpecializedGameTypes\StockClasses\" />
+    <Folder Include="SpecializedGameTypes\RummyClasses\" />
+  </ItemGroup>
+
+</Project>
