@@ -1,4 +1,4 @@
-﻿namespace AndyCristinaSignalRHub
+﻿namespace MultiplayerSignalRHubClasses
 {
     public class ConnectionInfo
     {

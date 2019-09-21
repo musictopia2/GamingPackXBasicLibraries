@@ -7,7 +7,7 @@ using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks; //most of the time, i will be using asyncs.
 using js = CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers.NewtonJsonStrings; //just in case i need those 2.
-namespace AndyCristinaSignalRHub
+namespace MultiplayerSignalRHubClasses
 {
     public class MultiplayerConnectionHub : Hub
     {
