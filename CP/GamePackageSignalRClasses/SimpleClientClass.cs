@@ -33,6 +33,7 @@ namespace GamePackageSignalRClasses
                 port = await _connectInfo.GetPortAsync();
             string ipAddress = await _connectInfo.GetIPAddressAsync();
             string endPoint = await _connectInfo.GetEndPointAsync(); //i do like the interface method for this.
+            //autoreconnect can be risky because we don't know what it needs to resend unfortunately.
             if (isAzure == false)
             {
                 _hubConnection = new HubConnectionBuilder()
@@ -46,7 +47,6 @@ namespace GamePackageSignalRClasses
             .WithUrl($"{ipAddress}{endPoint}")
             .WithAutomaticReconnect()
             .Build();
-            
             _hubConnection.On("Hosting", () =>
             {
                 _thisProgress.Report(new CustomEventHandler(EnumNetworkCategory.Hosting));
