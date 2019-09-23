@@ -36,13 +36,17 @@ namespace GamePackageSignalRClasses
             if (isAzure == false)
             {
                 _hubConnection = new HubConnectionBuilder()
-            .WithUrl($"{ipAddress}:{port}{endPoint}")
+            .WithUrl($"{ipAddress}:{port}{endPoint}"
+            )
+            .WithAutomaticReconnect() //great new feature released september 23, 2019.  i guess this was client side.
             .Build();
             }
             else
                 _hubConnection = new HubConnectionBuilder()
             .WithUrl($"{ipAddress}{endPoint}")
+            .WithAutomaticReconnect()
             .Build();
+            
             _hubConnection.On("Hosting", () =>
             {
                 _thisProgress.Report(new CustomEventHandler(EnumNetworkCategory.Hosting));
