@@ -46,7 +46,9 @@ namespace BaseGPXPagesAndControlsXF.BasePageProcesses.Pages
             OurContainer = new GamePackageDIContainer();
             _startInfo = starts; //something needs to have this too.
             CustomPlatform = customPlatform;
-            CustomPlatform.SetUp(OurContainer); //this can get them setup too.
+            CustomPlatform.SetUp(OurContainer); //this can get them setup too.  this should set up even the screen interface to calculate screens.
+            IScreen screen = OurContainer.Resolve<IScreen>();
+            screen.CalculateScreens(); //i think this is the best way to handle this so i don't need another parameter and break everything.
             BuildXAML(mode);
         }
         protected virtual void StartUp() { }
