@@ -27,7 +27,7 @@ namespace GameLoaderXF
             if (multiPlayer)
                 throw new BasicBlankException("Multiplayer is not supported yet");
             _forces = forces;
-            screen.CalculateScreen(); //this is how i have to do it.
+            screen.CalculateScreens();
             SendFont(new StandardButtonFontClass());
             CustomPlatform = platform;
             Starts = starts; //can't test the orientation part because we don't have igameinfo.  has to take some risks.
