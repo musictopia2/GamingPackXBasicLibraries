@@ -73,7 +73,6 @@
     <Folder Include="MultiplePilesViewModels\" />
     <Folder Include="NetworkingClasses\Data\" />
     <Folder Include="NetworkingClasses\Interfaces\" />
-    <Folder Include="NetworkingClasses\Misc\" />
     <Folder Include="NetworkingClasses\SocketClasses\" />
     <Folder Include="StandardImplementations\CrossPlatform\ExtensionClasses\" />
     <Folder Include="StandardImplementations\CrossPlatform\CommonProportionClasses\" />

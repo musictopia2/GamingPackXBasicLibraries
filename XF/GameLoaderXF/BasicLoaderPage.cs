@@ -7,6 +7,8 @@ using static BaseGPXPagesAndControlsXF.BasePageProcesses.Pages.SharedPageFunctio
 using BasicGameFramework.StandardImplementations.XamarinForms.Interfaces;
 using BasicGameFramework.StandardImplementations.XamarinForms.BasicClasses;
 using BasicGameFramework.StandardImplementations.CrossPlatform.DataClasses;
+using BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses;
+
 namespace GameLoaderXF
 {
     public abstract class BasicLoaderPage<VM> : ContentPage
@@ -24,14 +26,22 @@ namespace GameLoaderXF
         protected virtual void StartUp() { }
         public BasicLoaderPage(IGamePlatform platform, IStartUp starts, IForceOrientation forces, IScreen screen, bool multiPlayer)
         {
-            if (multiPlayer)
-                throw new BasicBlankException("Multiplayer is not supported yet");
+            BackgroundColor = Color.Navy; //do this as well
+            Starts = starts; //can't test the orientation part because we don't have igameinfo.  has to take some risks.
             _forces = forces;
+            CustomPlatform = platform;
+            if (multiPlayer)
+            {
+                if (GlobalDataLoaderClass.HasSettings(true) == false)
+                {
+                    Label label = GetDefaultLabel();
+                    label.Text = "You must use the settings app in order to populate the settings so you have at least a nick name";
+                    Content = label;
+                    return;
+                }
+            }
             screen.CalculateScreens();
             SendFont(new StandardButtonFontClass());
-            CustomPlatform = platform;
-            Starts = starts; //can't test the orientation part because we don't have igameinfo.  has to take some risks.
-            BackgroundColor = Color.Navy; //do this as well
             NavigationPage.SetHasNavigationBar(this, false);
             VM thisMod = new VM();
             StartUp();

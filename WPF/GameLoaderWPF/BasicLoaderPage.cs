@@ -1,11 +1,13 @@
 ﻿using BaseGPXWindowsAndControlsCore.BasicControls.ChoicePickers;
 using BasicControlsAndWindowsCore.BasicWindows.Misc;
 using BasicGameFramework.CommonInterfaces;
+using BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses;
 using CommonBasicStandardLibraries.Exceptions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using static CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.BasicDataFunctions;
+using static BaseGPXWindowsAndControlsCore.BaseWindows.SharedWindowFunctions;
 namespace GameLoaderWPF
 {
     public abstract class BasicLoaderPage<VM> : Window
@@ -20,6 +22,17 @@ namespace GameLoaderWPF
         }
         public BasicLoaderPage(IStartUp starts, bool multiplayer)
         {
+            Background = Brushes.Navy;
+            if (multiplayer)
+            {
+                if (GlobalDataLoaderClass.HasSettings(true) == false)
+                {
+                    TextBlock label = GetDefaultLabel();
+                    label.Text = "You must use the settings app in order to populate the settings so you have at least a nick name";
+                    Content = label;
+                    return;
+                }
+            }
             Multiplayer = multiplayer;
             StartUp();
             OS = EnumOS.WindowsDT; //this part is okay.
@@ -27,7 +40,6 @@ namespace GameLoaderWPF
             WindowHelper.CurrentWindow = this;
             WindowHelper.SetDefaultLocation();
             WindowHelper.SetSize(tempSize.Width, tempSize.Height);
-            Background = Brushes.Navy;
             VM thisMod = new VM();
             thisMod.Init(this, starts);
             ListChooserWPF lists = new ListChooserWPF();
