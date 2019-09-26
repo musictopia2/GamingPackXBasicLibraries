@@ -93,6 +93,7 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
         public Command<EnumServerMode> ChangeServerOptionsCommand { get; set; }
         public Command MainNickCommand { get; set; }
         public Command DefaultAzureCommand { get; set; }
+        public Command ClearAzureCommand { get; set; }
         public GlobalDataViewModel(GlobalDataLoaderClass procs)
         {
             _procs = procs;
@@ -115,6 +116,7 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
             {
                 AzureEndPointAddress = MainAzureHostAddress; //set back to default one.
             }, items => true, this);
+            ClearAzureCommand = new Command(items => AzureEndPointAddress = "", items => true, this);
         }
         public async Task InitAsync()
         {
