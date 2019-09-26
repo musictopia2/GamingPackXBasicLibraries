@@ -7,10 +7,10 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
 {
     public class GlobalDataLoaderClass
     {
-        public GlobalDataLoaderClass(bool isXamarinForms)
+        public GlobalDataLoaderClass(IHostedUIInterface ui) //unfortunately had to do this way since it can load via dependency injection.
         {
-            IsXamarinForms = isXamarinForms;
-            if (isXamarinForms == false)
+            IsXamarinForms = ui.IsXamarinForms;
+            if (IsXamarinForms == false)
             {
                 if (DirectoryExists(_desktopPath) == false)
                     Directory.CreateDirectory(_desktopPath);
