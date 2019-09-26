@@ -49,7 +49,8 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
         public static string CurrentNickName(GlobalDataModel data) //i think should be able to do without object if i choose.
         {
             if (data.MainNickName == "")
-                throw new BasicBlankException("No nick name can be found.  Should have called HasSettings and acted accordingly");
+                return ""; //can't show error because tablets call this and can't control this part.
+                //throw new BasicBlankException("No nick name can be found.  Should have called HasSettings and acted accordingly");
             if (data.SecondaryNickName != "")
                 return data.SecondaryNickName;
             return data.MainNickName;
