@@ -32,6 +32,7 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
                 if (SetProperty(ref _MainNickName, value))
                 {
                     _data!.MainNickName = value;
+                    OnPropertyChanged(nameof(CurrentNickName));
                 }
 
             }
@@ -45,6 +46,7 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
                 if (SetProperty(ref _SecondaryNickName, value))
                 {
                     _data!.SecondaryNickName = value;
+                    OnPropertyChanged(nameof(CurrentNickName));
                 }
             }
         }
@@ -74,6 +76,7 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
 
             }
         }
+        public string CurrentNickName => GlobalDataLoaderClass.CurrentNickName(_data!);
         private bool CanProcess(EnumServerMode mode)
         {
             //this shows whether this mode can be processed or not.
