@@ -1,19 +1,9 @@
-﻿using System;
-using System.Text;
+﻿using CommonBasicStandardLibraries.Attributes;
 using CommonBasicStandardLibraries.Exceptions;
-using CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.BasicExtensions;
-using System.Linq;
-using CommonBasicStandardLibraries.BasicDataSettingsAndProcesses;
-using static CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.BasicDataFunctions;
-using CommonBasicStandardLibraries.CollectionClasses;
-using System.Threading.Tasks; //most of the time, i will be using asyncs.
-using fs = CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers.FileHelpers;
-using js = CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers.NewtonJsonStrings; //just in case i need those 2.
-using CommonBasicStandardLibraries.MVVMHelpers.SpecializedViewModels;
-using CommonBasicStandardLibraries.Attributes;
-using static BasicGameFramework.NetworkingClasses.Misc.GlobalStaticClasses;
 using CommonBasicStandardLibraries.MVVMHelpers;
-//i think this is the most common things i like to do
+using CommonBasicStandardLibraries.MVVMHelpers.SpecializedViewModels;
+using System.Threading.Tasks; //most of the time, i will be using asyncs.
+using static BasicGameFramework.NetworkingClasses.Misc.GlobalStaticClasses;
 namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
 {
     public class GlobalDataViewModel : DataEntryViewModel
@@ -99,6 +89,7 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
         }
         public Command<EnumServerMode> ChangeServerOptionsCommand { get; set; }
         public Command MainNickCommand { get; set; }
+        public Command DefaultAzureCommand { get; set; }
         public GlobalDataViewModel(GlobalDataLoaderClass procs)
         {
             _procs = procs;
@@ -117,6 +108,10 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
             {
                 return !string.IsNullOrWhiteSpace(SecondaryNickName);
             }, this);
+            DefaultAzureCommand = new Command(items =>
+            {
+                AzureEndPointAddress = MainAzureHostAddress; //set back to default one.
+            }, items => true, this);
         }
         public async Task InitAsync()
         {
