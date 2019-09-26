@@ -84,7 +84,6 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
 
             }
         }
-
         private bool CanProcess(EnumServerMode mode)
         {
             //this shows whether this mode can be processed or not.
@@ -98,9 +97,8 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
             }
             return true; //well see.
         }
-
         public Command<EnumServerMode> ChangeServerOptionsCommand { get; set; }
-
+        public Command MainNickCommand { get; set; }
         public GlobalDataViewModel(GlobalDataLoaderClass procs)
         {
             _procs = procs;
@@ -111,12 +109,18 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
             {
                 return CanProcess(mode);
             }, this);
-
+            MainNickCommand = new Command(async items =>
+            {
+                SecondaryNickName = "";
+                await ProcessSave(null!);
+            }, items =>
+            {
+                return !string.IsNullOrWhiteSpace(SecondaryNickName);
+            }, this);
         }
         public async Task InitAsync()
         {
             _data = await _procs.OpenAsync();
-
         }
         protected override async Task ProcessSave(object thisObj)
         {
