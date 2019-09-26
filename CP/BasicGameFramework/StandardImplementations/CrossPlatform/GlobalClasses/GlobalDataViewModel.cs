@@ -127,6 +127,7 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
             if (_data == null)
                 throw new BasicBlankException("Should had loaded data.  Rethink");
             await _procs.SaveAsync(_data); //i think
+            ThisMessage.CloseProgram();
         }
     }
 }
