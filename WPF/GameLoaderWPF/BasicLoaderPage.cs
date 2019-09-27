@@ -51,8 +51,6 @@ namespace GameLoaderWPF
             lists.TotalColumns = TotalColumns; //this should be fine so i can test something else.
             if (thisMod.PackagePicker!.TextList.Count == 0)
                 throw new BasicBlankException("No items");
-            if (multiplayer == true)
-                throw new BasicBlankException("Not sure what to do about multiplayer for now because needs some way to have nick names, etc.");
             lists.LoadLists(thisMod.PackagePicker!);
             Content = lists;
             Show();
