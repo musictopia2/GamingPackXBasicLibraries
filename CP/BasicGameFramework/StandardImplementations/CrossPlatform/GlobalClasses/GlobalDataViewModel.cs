@@ -123,6 +123,11 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
         public async Task InitAsync()
         {
             _data = await _procs.OpenAsync();
+            MainNickName = _data.MainNickName;
+            SecondaryNickName = _data.SecondaryNickName;
+            ServerMode = _data.ServerMode;
+            HostIPAddress = _data.HostIPAddress;
+            AzureEndPointAddress = _data.AzureEndPointAddress;
         }
         protected override async Task ProcessSave(object thisObj)
         {
