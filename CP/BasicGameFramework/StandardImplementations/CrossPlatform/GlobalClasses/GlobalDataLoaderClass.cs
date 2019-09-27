@@ -46,6 +46,13 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
             string path = GetPath(IsXamarinForms);
             return await fs.RetrieveSavedObjectAsync<GlobalDataModel>(path);
         }
+        public async Task<GlobalDataModel> OpenAsync(bool isXamarinForms)
+        {
+            if (HasSettings(isXamarinForms) == false)
+                throw new BasicBlankException("No settings.  This should not have been allowed in this situation");
+            string path = GetPath(isXamarinForms);
+            return await fs.RetrieveSavedObjectAsync<GlobalDataModel>(path);
+        }
         public static string CurrentNickName(GlobalDataModel data) //i think should be able to do without object if i choose.
         {
             if (data.MainNickName == "")
