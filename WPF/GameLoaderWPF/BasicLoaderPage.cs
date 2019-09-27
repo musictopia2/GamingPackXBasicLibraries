@@ -30,6 +30,7 @@ namespace GameLoaderWPF
                     TextBlock label = GetDefaultLabel();
                     label.Text = "You must use the settings app in order to populate the settings so you have at least a nick name";
                     Content = label;
+                    Show(); //looks like i have to do the show method.  otherwise, nothing.
                     return;
                 }
             }

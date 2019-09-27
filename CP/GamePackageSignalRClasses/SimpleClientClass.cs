@@ -39,13 +39,14 @@ namespace GamePackageSignalRClasses
                 _hubConnection = new HubConnectionBuilder()
             .WithUrl($"{ipAddress}:{port}{endPoint}"
             )
-            .WithAutomaticReconnect() //great new feature released september 23, 2019.  i guess this was client side.
+            //.WithAutomaticReconnect() //great new feature released september 23, 2019.  i guess this was client side.
+            //bad news is the new 3.0 does not seem to work with xamarin forms for now.
             .Build();
             }
             else
                 _hubConnection = new HubConnectionBuilder()
             .WithUrl($"{ipAddress}{endPoint}")
-            .WithAutomaticReconnect()
+            //.WithAutomaticReconnect()
             .Build();
             _hubConnection.On("Hosting", () =>
             {
