@@ -4,6 +4,8 @@ using BasicGameFramework.DIContainers;
 using BasicGameFramework.StandardImplementations.CrossPlatform.AutoresumeClasses;
 using BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses;
 using CommonBasicStandardLibraries.Exceptions;
+using BasicGameFramework.StandardImplementations.CrossPlatform.DataClasses;
+using static BasicGameFramework.StandardImplementations.CrossPlatform.DataClasses.GlobalScreenClass;
 namespace GamePackageSignalRClasses
 {
     public class MainStartUp : IStartUp
@@ -26,6 +28,8 @@ namespace GamePackageSignalRClasses
             if (_global == null)
                 _global = GlobalDataLoaderClass.Open(data.IsXamarinForms);
             data.NickName = GlobalDataLoaderClass.CurrentNickName(_global);
+            if (data.IsXamarinForms == false)
+                ScreenUsed = EnumScreen.Desktop; //hopefully the xamarin forms part will work (?)
         }
     }
 }
