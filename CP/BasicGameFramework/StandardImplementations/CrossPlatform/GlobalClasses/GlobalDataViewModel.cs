@@ -1,6 +1,7 @@
 ﻿using CommonBasicStandardLibraries.Attributes;
 using CommonBasicStandardLibraries.Exceptions;
 using CommonBasicStandardLibraries.MVVMHelpers;
+using CommonBasicStandardLibraries.MVVMHelpers.Interfaces;
 using CommonBasicStandardLibraries.MVVMHelpers.SpecializedViewModels;
 using System.Threading.Tasks; //most of the time, i will be using asyncs.
 using static BasicGameFramework.NetworkingClasses.Misc.GlobalStaticClasses;
@@ -94,8 +95,9 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
         public Command MainNickCommand { get; set; }
         public Command DefaultAzureCommand { get; set; }
         public Command ClearAzureCommand { get; set; }
-        public GlobalDataViewModel(GlobalDataLoaderClass procs)
+        public GlobalDataViewModel(GlobalDataLoaderClass procs, ISimpleUI ui)
         {
+            ThisMessage = ui;
             _procs = procs;
             ChangeServerOptionsCommand = new Command<EnumServerMode>(mode =>
             {
