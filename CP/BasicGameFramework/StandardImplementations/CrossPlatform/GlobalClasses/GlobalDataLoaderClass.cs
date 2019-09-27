@@ -1,4 +1,5 @@
 ﻿using CommonBasicStandardLibraries.Exceptions;
+using Newtonsoft.Json;
 using System.IO;
 using System.Threading.Tasks; //most of the time, i will be using asyncs.
 using static CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.FileFunctions.FileFunctions;
@@ -46,12 +47,17 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
             string path = GetPath(IsXamarinForms);
             return await fs.RetrieveSavedObjectAsync<GlobalDataModel>(path);
         }
-        public async Task<GlobalDataModel> OpenAsync(bool isXamarinForms)
+        public static GlobalDataModel Open(bool isXamarinForms) //if i made async then would require breaking interface.  don't want that.
         {
             if (HasSettings(isXamarinForms) == false)
                 throw new BasicBlankException("No settings.  This should not have been allowed in this situation");
             string path = GetPath(isXamarinForms);
-            return await fs.RetrieveSavedObjectAsync<GlobalDataModel>(path);
+            string content = System.IO.File.ReadAllText(path); //has to do standard way this time.
+            JsonSerializerSettings settings = new JsonSerializerSettings();
+            settings.Formatting = Formatting.Indented;
+            settings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
+            settings.TypeNameHandling = TypeNameHandling.All;
+            return JsonConvert.DeserializeObject<GlobalDataModel>(content, settings);
         }
         public static string CurrentNickName(GlobalDataModel data) //i think should be able to do without object if i choose.
         {
