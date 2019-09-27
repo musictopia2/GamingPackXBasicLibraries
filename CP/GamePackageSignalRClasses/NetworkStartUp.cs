@@ -1,18 +1,51 @@
-﻿using System;
-using System.Text;
+﻿using BasicGameFramework.CommonInterfaces;
+using BasicGameFramework.DIContainers;
+using BasicGameFramework.NetworkingClasses.Misc;
+using BasicGameFramework.NetworkingClasses.Sockets;
+using BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses;
 using CommonBasicStandardLibraries.Exceptions;
-using CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.BasicExtensions;
-using System.Linq;
-using CommonBasicStandardLibraries.BasicDataSettingsAndProcesses;
-using static CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.BasicDataFunctions;
-using CommonBasicStandardLibraries.CollectionClasses;
-using System.Threading.Tasks; //most of the time, i will be using asyncs.
-using fs = CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers.FileHelpers;
-using js = CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers.NewtonJsonStrings; //just in case i need those 2.
-//i think this is the most common things i like to do
 namespace GamePackageSignalRClasses
 {
-    public class NetworkStartUp
+    public class NetworkStartUp : IRegisterNetworks
     {
+        private readonly GlobalDataModel _global;
+        public NetworkStartUp(GlobalDataModel global)
+        {
+            _global = global;
+        }
+        private BasicGameServerTCP? _tcpServer;
+        void IRegisterNetworks.RegisterMultiplayerClasses(GamePackageDIContainer container)
+        {
+            //will figure out what needs to be registered for network classes.
+            if (_global.ServerMode == EnumServerMode.MobileServer)
+            {
+                //everything required for mobile server.  this means you will listen on a port.  does mean you have to be closed out of the old or runtime errors.
+                _tcpServer = new BasicGameServerTCP();
+                //decided to use port 8010 for this time.  hopefully will be okay.
+                _tcpServer.StartServer();
+                container.RegisterType<ServerTCPClass>();
+                container.RegisterType<TCPDirectSpecificIP>();
+                return;
+            }
+            if (_global.ServerMode == EnumServerMode.LocalHosting)
+            {
+                container.RegisterType<ClientTCPClass>();
+                container.RegisterType<TCPDirectSpecificIP>();
+                return;
+            }
+            container.RegisterType<SignalRMessageService>();
+
+            if (_global.ServerMode == EnumServerMode.AzureHosting)
+            {
+                container.RegisterType<SignalRAzureEndPoint>();
+                return;
+            }
+            if (_global.ServerMode == EnumServerMode.HomeHosting)
+            {
+                container.RegisterType<SignalRLocalEndPoint>();
+                return;
+            }
+            throw new BasicBlankException("No hosting found.  Rethinking required");
+        }
     }
 }
