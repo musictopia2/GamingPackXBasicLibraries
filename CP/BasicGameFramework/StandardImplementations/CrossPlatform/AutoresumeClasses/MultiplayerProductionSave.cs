@@ -1,6 +1,7 @@
 ﻿using BasicGameFramework.BasicGameDataClasses;
 using BasicGameFramework.MultiplayerClasses.SavedGameClasses;
 using BasicGameFramework.TestUtilities;
+using CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers;
 using System.IO;
 using System.Threading.Tasks;
 using static CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.FileFunctions.FileFunctions;
@@ -19,6 +20,9 @@ namespace BasicGameFramework.StandardImplementations.CrossPlatform.AutoresumeCla
         private readonly string _lastPath = "";
         public MultiplayerProductionSave(IGameInfo thisGame, BasicData thisData, TestOptions thisTest)
         {
+            JsonSettingsGlobals.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None; //try this way.  because otherwise, does not work if not everybody is .net core unfortunately.
+            JsonSettingsGlobals.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.None; //try this as well.  otherwise, gets hosed with .net core and xamarin forms.
+            //this is needed even for this way because otherwise, a desktop cannot host while the clients are android devices.
             string tempPath;
             if (thisData.IsXamarinForms == false)
             {
