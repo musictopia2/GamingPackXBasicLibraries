@@ -30,6 +30,7 @@ namespace GameLoaderXF
             Starts = starts; //can't test the orientation part because we don't have igameinfo.  has to take some risks.
             _forces = forces;
             CustomPlatform = platform;
+            NavigationPage.SetHasNavigationBar(this, false);
             if (multiPlayer)
             {
                 if (GlobalDataLoaderClass.HasSettings(true) == false)
@@ -42,7 +43,6 @@ namespace GameLoaderXF
             }
             screen.CalculateScreens();
             SendFont(new StandardButtonFontClass());
-            NavigationPage.SetHasNavigationBar(this, false);
             VM thisMod = new VM();
             StartUp();
             BindingContext = thisMod;
