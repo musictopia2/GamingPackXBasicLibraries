@@ -77,7 +77,6 @@
     <Folder Include="StandardImplementations\CrossPlatform\ExtensionClasses\" />
     <Folder Include="StandardImplementations\CrossPlatform\CommonProportionClasses\" />
     <Folder Include="ViewModelInterfaces\" />
-    <Folder Include="TestUtilities\" />
     <Folder Include="Resources\" />
     <Folder Include="SpecializedGameTypes\YahtzeeStyleHelpers\" />
     <Folder Include="SpecializedGameTypes\TrickClasses\" />

@@ -88,6 +88,8 @@ namespace BasicGameFramework.DrawableListsViewModels
                 var loopTo1 = Columns;
                 for (y = 1; y <= loopTo1; y++)
                 {
+                    if (z + 1 > ObjectList.Count)
+                        throw new BasicBlankException($"Somehow was out of range.  z was {z + 1} and count was {ObjectList.Count}");
                     if (y == column && x == row)
                         return ObjectList[z];
                     z += 1;

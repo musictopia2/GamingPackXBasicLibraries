@@ -134,6 +134,15 @@ namespace BasicGameFramework.DrawableListsViewModels
             _objectList.AddRange(extraCards);
             _objectList.ShuffleList();//i think we need this too.
         }
+        public void InsertBeginningCards(IDeckDict<D> testCards) //this is needed in cases where we need some cards to be at the beginning of the deck.  one hint was tee it up.
+        {
+            testCards.ForEach(tempCard =>
+            {
+                var ourCard = _objectList.GetSpecificItem(tempCard.Deck);
+                _objectList.RemoveSpecificItem(ourCard);
+                _objectList.InsertBeginning(tempCard);
+            });
+        }
         public DeckObservableDict<D> DeckList() // try this way
         {
             _objectList.ForEach(thisO => thisO.Visible = true);
@@ -186,6 +195,10 @@ namespace BasicGameFramework.DrawableListsViewModels
         {
             int index;
             index = _objectList.Count / 2;
+            if (DeckStyle == EnumStyleType.Unknown)
+                thisCard.IsUnknown = true; //i think if putting in middle, should be unknown
+            else
+                thisCard.IsUnknown = false;
             _objectList.InsertMiddle(index, thisCard);
         }
         public D CutTheDeck()

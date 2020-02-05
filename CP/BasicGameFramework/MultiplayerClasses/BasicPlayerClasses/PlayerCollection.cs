@@ -227,8 +227,10 @@ namespace BasicGameFramework.MultiplayerClasses.BasicPlayerClasses
         }
         public async Task<int> CalculateOldTurnAsync(bool useCurrentPlayer = false, bool includeOutPlayers = false)
         {
-            if (_order!.IsReversed == true)
-                throw new BasicBlankException("Cannot calculate old turn when its already reversed");
+            //we can try to ignore the reverse part for calculate old turn.  looked at the old version
+            //and somehow it did not care about whether its reversed for old turn.  hopefully that works (?)
+            //if (_order!.IsReversed == true)
+            //    throw new BasicBlankException("Cannot calculate old turn when its already reversed");
             return await PrivateCalculateTurnAsync(EnumDirection.Reverse, useCurrentPlayer, includeOutPlayers);
         }
         public async Task<int> CalculateOtherTurnAsync(bool useCurrentPlayer = false, bool includeOutPlayers = true)

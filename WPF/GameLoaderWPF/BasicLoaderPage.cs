@@ -8,6 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using static CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.BasicDataFunctions;
 using static BaseGPXWindowsAndControlsCore.BaseWindows.SharedWindowFunctions;
+using BasicGameFramework.NetworkingClasses.Misc;
+
 namespace GameLoaderWPF
 {
     public abstract class BasicLoaderPage<VM> : Window
@@ -20,6 +22,7 @@ namespace GameLoaderWPF
         {
             return new Size(1800, 950);
         }
+        private readonly LoaderStartServerClass? _loadServer;
         public BasicLoaderPage(IStartUp starts, bool multiplayer)
         {
             Background = Brushes.Navy;
@@ -33,6 +36,8 @@ namespace GameLoaderWPF
                     Show(); //looks like i have to do the show method.  otherwise, nothing.
                     return;
                 }
+                _loadServer = new LoaderStartServerClass(false); //needs same thing for xamarin forms but will be true.
+                _loadServer.PossibleStartServer();
             }
             Multiplayer = multiplayer;
             StartUp();

@@ -77,7 +77,12 @@ namespace BaseGPXPagesAndControlsXF.BasicControls.GameFrames
         {
             IndividualRummySetXF<SU, CO, RU, GC, GW, SE, T> thisTemp;
             if (e.Action == NotifyCollectionChangedAction.Remove)
-                throw new BasicBlankException("Needs to figure out when removing an item"); //maybe we don't have remove item anymore.
+            {
+                if (e.OldItems.Count != 1)
+                    throw new BasicBlankException("Cannot remove one item at a time");
+                _thisStack!.Children.RemoveAt(e.OldStartingIndex);
+                return;
+            }
             if (e.Action == NotifyCollectionChangedAction.Reset)
                 _thisStack!.Children.Clear(); //this is it.
             if (e.Action == NotifyCollectionChangedAction.Add)

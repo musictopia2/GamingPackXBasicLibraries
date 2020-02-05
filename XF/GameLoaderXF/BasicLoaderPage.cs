@@ -8,6 +8,7 @@ using BasicGameFramework.StandardImplementations.XamarinForms.Interfaces;
 using BasicGameFramework.StandardImplementations.XamarinForms.BasicClasses;
 using BasicGameFramework.StandardImplementations.CrossPlatform.DataClasses;
 using BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses;
+using BasicGameFramework.NetworkingClasses.Misc;
 
 namespace GameLoaderXF
 {
@@ -24,6 +25,7 @@ namespace GameLoaderXF
         }
         public int TotalColumns { get; set; } 
         protected virtual void StartUp() { }
+        private readonly LoaderStartServerClass? _loadServer;
         public BasicLoaderPage(IGamePlatform platform, IStartUp starts, IForceOrientation forces, IScreen screen, bool multiPlayer)
         {
             BackgroundColor = Color.Navy; //do this as well
@@ -40,6 +42,8 @@ namespace GameLoaderXF
                     Content = label;
                     return;
                 }
+                _loadServer = new LoaderStartServerClass(true); //needs same thing for xamarin forms but will be true.
+                _loadServer.PossibleStartServer();
             }
             screen.CalculateScreens();
             SendFont(new StandardButtonFontClass());

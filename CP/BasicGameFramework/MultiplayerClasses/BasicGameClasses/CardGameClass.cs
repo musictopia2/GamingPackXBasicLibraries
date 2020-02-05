@@ -202,7 +202,9 @@ namespace BasicGameFramework.MultiplayerClasses.BasicGameClasses
                 }); //this is default.
             }
             else if (_thisMod.Pile1!.Visible == true)
+            {
                 _thisMod.Pile1.AddCard(thisCard);
+            }
         }
         public virtual async Task DiscardAsync(D thisCard) //done
         {
@@ -225,9 +227,14 @@ namespace BasicGameFramework.MultiplayerClasses.BasicGameClasses
                 AlreadyDrew = true;
             }
             else if (CardInfo!.PlayerGetsCards == false)
+            {
                 LeftToDraw = 1;
+            }
             else if (LeftToDraw == 0)
+            {
                 LeftToDraw = 1;
+            }
+
             do
             {
                 if (_thisMod.Deck1!.IsEndOfDeck() == true && _thisMod.Deck1.NeverAutoDisable == false)
@@ -249,7 +256,10 @@ namespace BasicGameFramework.MultiplayerClasses.BasicGameClasses
                         await ReshuffleCardsAsync(canSendMessage);
                     }
                     else
+                    {
                         ThisCheck!.IsEnabled = true;
+                    }
+
                     return;
                 }
                 _didReshuffle = false;
@@ -324,6 +334,7 @@ namespace BasicGameFramework.MultiplayerClasses.BasicGameClasses
             if (CardInfo!.ReshuffleAllCardsFromDiscard == true)
             {
                 thisCol.Add(_thisMod.Pile1.GetCardInfo());
+                //try to not have it here.  otherwise, only works for host but not for clients.
                 _thisMod.Pile1.ClearCards(); //did call it cards.  probably best to leave it.
             }
             foreach (var thisCard in thisCol)
@@ -341,7 +352,12 @@ namespace BasicGameFramework.MultiplayerClasses.BasicGameClasses
         }
         protected virtual async Task AfterReshuffleAsync() //at this time, the cards should have been reshuffled.
         {
-            _thisMod.Pile1!.CardsReshuffled(); //this was forgotten.  was a serious problem.
+            //previously did cardsreshuffled all the time.  taking a risk by making the changes.  could be better, worse, the same
+            //can affect many games.
+            if (CardInfo!.ReshuffleAllCardsFromDiscard)
+                _thisMod!.Pile1!.ClearCards();
+            else
+                _thisMod.Pile1!.CardsReshuffled(); //this was forgotten.  was a serious problem.
             if (DoDraw == true)
             {
                 await DrawAsync();
@@ -377,6 +393,8 @@ namespace BasicGameFramework.MultiplayerClasses.BasicGameClasses
                 OtherPile.CurrentOnly = true;
                 OtherPile.ClearCards();
             }
+            _thisMod.Pile1!.ClearCards(); //in the old version, this was in clear game.  there is no clear game.  i think its best to be safe than sorry.
+            _thisMod.Deck1!.ClearCards(); //i think this could be needed too.   best to be safe than sorry.
             DeckRegularDict<D>? tempList = default;
             SaveRoot!.PreviousCard = 0; //i think when its starting new part, this needs to be 0.
             AlreadyDrew = false; //i think it should be here.
@@ -420,7 +438,10 @@ namespace BasicGameFramework.MultiplayerClasses.BasicGameClasses
                     ps.CardProcedures.PassOutCards(PlayerList!, firstList, cardsToPassOut, testCount, ThisTest.ComputerNoCards, ref tempList!);
                 }
                 else
+                {
                     ps.CardProcedures.PassOutCards(PlayerList!, firstList, ThisTest.ComputerNoCards);
+                }
+
                 if (CardInfo.NeedsDummyHand == true)
                 {
                     CardInfo.DummyHand = PlayerList!["dummy"].MainHandList;
@@ -428,7 +449,10 @@ namespace BasicGameFramework.MultiplayerClasses.BasicGameClasses
                 }
             }
             else if (CardInfo.NeedsDummyHand == true)
+            {
                 throw new BasicBlankException("Cannot require dummy hand because no cards are even being passed out");
+            }
+
             if (CardInfo.NoPass == false && CardInfo.PassOutAll == false)
                 _thisMod.Deck1!.OriginalList(tempList!);
             else if (CardInfo.PassOutAll == false)
@@ -455,15 +479,21 @@ namespace BasicGameFramework.MultiplayerClasses.BasicGameClasses
                     }
                 }
                 else
+                {
                     LinkHand();
+                }
             }
             else
+            {
                 LinkHand();
+            }
+
             if (CardInfo.AddToDiscardAtBeginning == true && _thisMod.Pile1!.Visible == true && CardInfo.NoPass == false)
             {
-                _thisMod.Pile1.ClearCards(); //i think
                 if (ThisTest!.AutoNearEndOfDeckBeginning == false)
+                {
                     _thisMod.Pile1.AddCard(_thisMod.Deck1!.DrawCard()); //drawing a card for deck
+                }
                 else
                 {
                     int Suggested = _thisMod.Deck1!.CardsLeft() - 2;

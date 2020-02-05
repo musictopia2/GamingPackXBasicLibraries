@@ -109,6 +109,7 @@ namespace BasicGameFramework.DrawableListsViewModels
             CurrentCard.IsUnknown = false;
             CurrentCard.IsSelected = false;
             CurrentCard.Drew = false;
+            whatList.RemoveFirstItem(); //try this way.  could fix at least one of the problems.
             whatList.ForEach(Items =>
             {
                 Items.IsSelected = false;
@@ -245,12 +246,16 @@ namespace BasicGameFramework.DrawableListsViewModels
                 throw new BasicBlankException("Cannot cut deck because there are less then 4 cards left");
             int Index;
             Index = _objectList.Count / 2;
+            if (_objectList.ObjectExist(CurrentCard.Deck))
+                _objectList.RemoveObjectByDeck(CurrentCard.Deck); //try this way.  not sure if it will later cause problems but its a risk to try to take.
             _objectList.InsertMiddle(Index, CurrentCard);
             RemoveFromPile();
         }
         public void AddRestOfDeck(IDeckDict<D> currentList)
         {
-            _objectList.AddRange(currentList); // i
+            if (currentList.ObjectExist(_objectList.First().Deck))
+                _objectList.RemoveFirstItem(); //try to remove the first item.  hopefully does not cause another issue.
+            _objectList.AddRange(currentList);
             _previousNum = _objectList.Count; // so far should be fine
         }
         public void AddCard(D thisCard)
@@ -268,21 +273,23 @@ namespace BasicGameFramework.DrawableListsViewModels
                 _objectList.Clear();
             }
             else
+            {
                 if (CurrentOnly == false)
-            {
-                if (_objectList.ObjectExist(thisCard.Deck) == true)
-                    _objectList.RemoveObjectByDeck(thisCard.Deck);
+                {
+                    if (_objectList.ObjectExist(thisCard.Deck) == true)
+                        _objectList.RemoveObjectByDeck(thisCard.Deck);
 
-                if (_objectList.ObjectExist(CurrentCard.Deck))
-                    _objectList.RemoveObjectByDeck(CurrentCard.Deck); //try this way.  not sure what problem this will cause.
-                _objectList.Add(CurrentCard);
-                _previousNum = _objectList.Count;
-            }
-            else
-            {
-                CurrentCard = thisCard; // try this 
-                _thisE.NewCardMessage(EnumNewCardCategories.discard);
-                return; // try this way.
+                    if (_objectList.ObjectExist(CurrentCard.Deck))
+                        _objectList.RemoveObjectByDeck(CurrentCard.Deck); //try this way.  not sure what problem this will cause.
+                    _objectList.Add(CurrentCard);
+                    _previousNum = _objectList.Count;
+                }
+                else
+                {
+                    CurrentCard = thisCard; // try this 
+                    _thisE.NewCardMessage(EnumNewCardCategories.discard);
+                    return; // try this way.
+                }
             }
             FirstLoad(thisCard, thisCard.Deck);
         }
