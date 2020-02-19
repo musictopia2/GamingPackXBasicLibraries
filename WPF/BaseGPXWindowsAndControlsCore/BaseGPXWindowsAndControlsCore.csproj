@@ -18,9 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="BasicGameFramework">
-      <HintPath>..\..\CP\BasicGameFramework\bin\Release\netstandard2.0\BasicGameFramework.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\CP\BasicGameFramework\BasicGameFramework.csproj" />
   </ItemGroup>
 
 </Project>

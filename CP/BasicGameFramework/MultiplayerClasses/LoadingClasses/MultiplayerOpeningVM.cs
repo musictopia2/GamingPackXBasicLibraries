@@ -16,6 +16,7 @@ using CommonBasicStandardLibraries.MVVMHelpers.Interfaces;
 using System.Linq;
 using System.Threading.Tasks; //most of the time, i will be using asyncs.
 using js = CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers.NewtonJsonStrings; //just in case i need those 2.
+using static CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.BasicDataFunctions;
 namespace BasicGameFramework.MultiplayerClasses.LoadingClasses
 {
     public class MultiplayerOpeningVM<P, S> : ObservableObject, IOpeningMessenger, IReadyNM
@@ -359,6 +360,7 @@ namespace BasicGameFramework.MultiplayerClasses.LoadingClasses
             _thisMod.CommandContainer!.OpenBusy = false; //because you may decide to cancel.
             if (_saveList != null)
                 PreviousNonComputerNetworkedPlayers = _saveList.Count() - 1; //i think
+
             return Task.CompletedTask;
         }
         public async Task HostNotFoundAsync(IMessageChecker thisCheck)
@@ -383,6 +385,8 @@ namespace BasicGameFramework.MultiplayerClasses.LoadingClasses
             ShowOtherChangesBecauseOfNetworkChange();
             StartCommand.ReportCanExecuteChange(); //has to manually be done this time.
             ResumeMultiplayerGameCommand.ReportCanExecuteChange(); //this had to also be manually done.
+            IMessageChecker check = cons!.Resolve<IMessageChecker>();
+            check.IsEnabled = true; //don't want to break the interface to put that part in.  this means you have to have it.
             return Task.CompletedTask;
         }
     }

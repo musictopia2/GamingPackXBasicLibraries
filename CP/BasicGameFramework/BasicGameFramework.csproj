@@ -67,7 +67,6 @@
     <Folder Include="GameGraphicsCP\MiscClasses\" />
     <Folder Include="MiscViewModels\" />
     <Folder Include="MultiplayerClasses\Extensions\" />
-    <Folder Include="MultiplayerClasses\InterfaceMessages\" />
     <Folder Include="MultiplayerClasses\InterfacesForHelpers\" />
     <Folder Include="MultiplayerClasses\SavedGameClasses\" />
     <Folder Include="MultiplePilesViewModels\" />
