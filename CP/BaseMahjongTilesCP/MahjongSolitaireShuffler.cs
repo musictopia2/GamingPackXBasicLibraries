@@ -1,7 +1,7 @@
-﻿using BasicGameFramework.BasicDrawables.BasicClasses;
-using BasicGameFramework.BasicDrawables.Dictionary;
-using BasicGameFramework.BasicDrawables.Interfaces;
-using BasicGameFramework.DIContainers;
+﻿using BasicGameFrameworkLibrary.BasicDrawables.BasicClasses;
+using BasicGameFrameworkLibrary.BasicDrawables.Dictionary;
+using BasicGameFrameworkLibrary.BasicDrawables.Interfaces;
+using BasicGameFrameworkLibrary.DIContainers;
 using CommonBasicStandardLibraries.CollectionClasses;
 using System;
 using System.Collections;
@@ -153,6 +153,11 @@ namespace BaseMahjongTilesCP
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _objectList.GetEnumerator();
+        }
+
+        public void PutCardOnTop(int deck)
+        {
+            _thisShuffle.PutCardOnTop(deck);
         }
     }
 }

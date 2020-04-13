@@ -462,6 +462,7 @@ namespace BaseGPXWindowsAndControlsCore.BasicControls.GameFrames
         }
         public void LoadList(HandViewModel<CA> thisMod, string tagUsed) // don't need the cardlist because that is in the viewmodel
         {
+            //return;
             CA firstCard;
             _tagUsed = tagUsed;
             DataContext = thisMod;
@@ -486,6 +487,7 @@ namespace BaseGPXWindowsAndControlsCore.BasicControls.GameFrames
             _thisStack = new StackPanel();
             PositionMainControls();
             PopulateList();
+            //throw new BasicBlankException("Help");
             SetBinding(CommandProperty, nameof(HandViewModel<CA>.BoardSingleClickCommand));
             SetBinding(MaximumCardsProperty, nameof(HandViewModel<CA>.Maximum));
             SetVisibleConverter();
@@ -512,6 +514,8 @@ namespace BaseGPXWindowsAndControlsCore.BasicControls.GameFrames
         }
         private void BaseHandWPF_MouseUp(object sender, MouseButtonEventArgs e)
         {
+            //return;
+            //throw new BasicBlankException("Help");
             var tempCommand = Command;
             if (tempCommand != null)
             {

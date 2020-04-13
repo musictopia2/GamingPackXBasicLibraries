@@ -1,4 +1,4 @@
-﻿using BasicGameFramework.BasicDrawables.Interfaces;
+﻿using BasicGameFrameworkLibrary.BasicDrawables.Interfaces;
 using SkiaSharp;
 namespace BaseMahjongTilesCP
 {

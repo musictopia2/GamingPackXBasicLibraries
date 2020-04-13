@@ -1,4 +1,4 @@
-﻿using BasicGameFramework.BasicDrawables.BasicClasses;
+﻿using BasicGameFrameworkLibrary.BasicDrawables.BasicClasses;
 namespace BaseMahjongTilesCP
 {
     public abstract class BasicMahjongTile : SimpleDeckObject, IMahjongTileInfo
@@ -48,76 +48,76 @@ namespace BaseMahjongTilesCP
         public EnumBonusType WhatBonus { get; set; }
         public EnumNumberType WhatNumber { get; set; }
         public EnumDirectionType WhatDirection { get; set; }
-        private float _Left;
+        private float _left;
         public float Left
         {
             get
             {
-                return _Left;
+                return _left;
             }
             set
             {
-                if (SetProperty(ref _Left, value) == true) { }
+                if (SetProperty(ref _left, value) == true) { }
             }
         }
-        private float _Top;
+        private float _top;
         public float Top
         {
             get
             {
-                return _Top;
+                return _top;
             }
             set
             {
-                if (SetProperty(ref _Top, value) == true) { }
+                if (SetProperty(ref _top, value) == true) { }
             }
         }
-        private bool _NeedsLeft;
+        private bool _needsLeft;
         public bool NeedsLeft
         {
             get
             {
-                return _NeedsLeft;
+                return _needsLeft;
             }
             set
             {
-                if (SetProperty(ref _NeedsLeft, value) == true) { }
+                if (SetProperty(ref _needsLeft, value) == true) { }
             }
         }
-        private bool _NeedsTop;
+        private bool _needsTop;
         public bool NeedsTop
         {
             get
             {
-                return _NeedsTop;
+                return _needsTop;
             }
             set
             {
-                if (SetProperty(ref _NeedsTop, value) == true) { }
+                if (SetProperty(ref _needsTop, value) == true) { }
             }
         }
-        private bool _NeedsRight;
+        private bool _needsRight;
         public bool NeedsRight
         {
             get
             {
-                return _NeedsRight;
+                return _needsRight;
             }
             set
             {
-                if (SetProperty(ref _NeedsRight, value) == true) { }
+                if (SetProperty(ref _needsRight, value) == true) { }
             }
         }
-        private bool _NeedsBottom;
+        private bool _needsBottom;
         public bool NeedsBottom
         {
             get
             {
-                return _NeedsBottom;
+                return _needsBottom;
             }
             set
             {
-                if (SetProperty(ref _NeedsBottom, value) == true) { }
+                if (SetProperty(ref _needsBottom, value) == true) { }
             }
         }
     }

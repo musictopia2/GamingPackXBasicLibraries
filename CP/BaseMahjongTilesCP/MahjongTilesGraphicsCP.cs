@@ -1,7 +1,7 @@
-﻿using BasicGameFramework.GameGraphicsCP.BaseGraphics;
-using BasicGameFramework.GameGraphicsCP.Tiles;
+﻿using BasicGameFrameworkLibrary.GameGraphicsCP.BaseGraphics;
+using BasicGameFrameworkLibrary.GameGraphicsCP.Tiles;
 using CommonBasicStandardLibraries.Exceptions;
-using CommonBasicStandardLibraries.MVVMHelpers;
+using CommonBasicStandardLibraries.MVVMFramework.ViewModels;
 using SkiaSharp;
 using SkiaSharpGeneralLibrary.SKExtensions;
 using System.Linq;
@@ -95,7 +95,7 @@ namespace BaseMahjongTilesCP
         private SKPaint GetPaint(string path)
         {
             var thisPaint = MiscHelpers.GetBitmapPaint();
-            thisPaint.Shader = ImageExtensions.GetSkShader(_thisAssembly, path);
+            thisPaint.Shader = ImageExtensions.GetSkShader(_thisAssembly!, path);
             return thisPaint;
         }
         private void GetHatchPaints()
@@ -111,45 +111,45 @@ namespace BaseMahjongTilesCP
         }
         #endregion
         #region Properties
-        private bool _Drew;
+        private bool _drew;
         public bool Drew
         {
-            get { return _Drew; }
+            get { return _drew; }
             set
             {
-                if (SetProperty(ref _Drew, value))
+                if (SetProperty(ref _drew, value))
                     MainGraphics!.PaintUI?.DoInvalidate();
             }
         }
-        private bool _Visible;
+        private bool _visible;
         public bool Visible
         {
-            get { return _Visible; }
+            get { return _visible; }
             set
             {
-                if (SetProperty(ref _Visible, value))
+                if (SetProperty(ref _visible, value))
                     MainGraphics!.PaintUI?.DoInvalidate();
             }
         }
-        private bool _Is3D;
+        private bool _is3D;
         public bool Is3D
         {
-            get { return _Is3D; }
+            get { return _is3D; }
             set
             {
-                if (SetProperty(ref _Is3D, value)) { }
+                if (SetProperty(ref _is3D, value)) { }
             }
         }
-        private int _Index;
+        private int _index;
         public int Index
         {
             get
             {
-                return _Index;
+                return _index;
             }
             set
             {
-                if (SetProperty(ref _Index, value) == true)
+                if (SetProperty(ref _index, value) == true)
                     MainGraphics!.PaintUI?.DoInvalidate(); //just piggy back on that one.
             }
         }

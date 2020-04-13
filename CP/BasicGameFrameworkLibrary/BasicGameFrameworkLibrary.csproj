@@ -1,0 +1,93 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+	<LangVersion>8.0</LangVersion>
+	<Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CommonBasicStandardLibraries" Version="3.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="SkiaSharp" Version="1.68.0" />
+    <PackageReference Include="SkiaSharpGeneralLibrary" Version="2.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="BasicDrawables\BasicClasses\" />
+    <Folder Include="BasicDrawables\Dictionary\" />
+    <Folder Include="BasicDrawables\Interfaces\" />
+    <Folder Include="BasicDrawables\MiscClasses\" />
+    <Folder Include="DIContainers\" />
+    <Folder Include="CombinationHelpers\" />
+    <Folder Include="GameGraphicsCP\Animations\" />
+    <Folder Include="GameGraphicsCP\Interfaces\" />
+    <Folder Include="GameGraphicsCP\MiscClasses\" />
+    <Folder Include="GameGraphicsCP\BaseGraphics\" />
+    <Folder Include="GameGraphicsCP\Cards\" />
+    <Folder Include="GameGraphicsCP\Dice\" />
+    <Folder Include="GameGraphicsCP\Dominos\" />
+    <Folder Include="GameGraphicsCP\GameboardPositionHelpers\" />
+    <Folder Include="GameGraphicsCP\GamePieces\" />
+    <Folder Include="GameGraphicsCP\Tiles\" />
+    <Folder Include="GameBoardCollections\" />
+    <Folder Include="ColorCards\" />
+    <Folder Include="Dominos\" />
+    <Folder Include="NetworkingClasses\Data\" />
+    <Folder Include="NetworkingClasses\Extensions\" />
+    <Folder Include="NetworkingClasses\Interfaces\" />
+    <Folder Include="NetworkingClasses\Misc\" />
+    <Folder Include="NetworkingClasses\SocketClasses\" />
+    <Folder Include="Resources\" />
+    <Folder Include="RegularDeckOfCards\" />
+    <Folder Include="SolitaireClasses\BasicVMInterfaces\" />
+    <Folder Include="SolitaireClasses\Cards\" />
+    <Folder Include="SolitaireClasses\GraphicsObservable\" />
+    <Folder Include="SolitaireClasses\MainClasses\" />
+    <Folder Include="SolitaireClasses\MiscClasses\" />
+    <Folder Include="SolitaireClasses\PileObservable\" />
+    <Folder Include="SolitaireClasses\PileInterfaces\" />
+    <Folder Include="SpecializedGameTypes\StockClasses\" />
+    <Folder Include="StandardImplementations\CrossPlatform\AutoresumeClasses\" />
+    <Folder Include="StandardImplementations\CrossPlatform\CommonProportionClasses\" />
+    <Folder Include="StandardImplementations\CrossPlatform\DataClasses\" />
+    <Folder Include="StandardImplementations\CrossPlatform\ExtensionClasses\" />
+    <Folder Include="StandardImplementations\CrossPlatform\GlobalClasses\" />
+    <Folder Include="StandardImplementations\CrossPlatform\MiscClasses\" />
+    <Folder Include="StandardImplementations\XamarinForms\BasicClasses\" />
+    <Folder Include="StandardImplementations\XamarinForms\Interfaces\" />
+    <Folder Include="TestUtilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\back.png" />
+    <None Remove="Resources\jack_clubs.png" />
+    <None Remove="Resources\jack_diamonds.png" />
+    <None Remove="Resources\jack_hearts.png" />
+    <None Remove="Resources\jack_spades.png" />
+    <None Remove="Resources\king_clubs.png" />
+    <None Remove="Resources\king_diamonds.png" />
+    <None Remove="Resources\king_hearts.png" />
+    <None Remove="Resources\king_spades.png" />
+    <None Remove="Resources\queen_clubs.png" />
+    <None Remove="Resources\queen_diamonds.png" />
+    <None Remove="Resources\queen_hearts.png" />
+    <None Remove="Resources\queen_spades.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\back.png" />
+    <EmbeddedResource Include="Resources\jack_clubs.png" />
+    <EmbeddedResource Include="Resources\jack_diamonds.png" />
+    <EmbeddedResource Include="Resources\jack_hearts.png" />
+    <EmbeddedResource Include="Resources\jack_spades.png" />
+    <EmbeddedResource Include="Resources\king_clubs.png" />
+    <EmbeddedResource Include="Resources\king_diamonds.png" />
+    <EmbeddedResource Include="Resources\king_hearts.png" />
+    <EmbeddedResource Include="Resources\king_spades.png" />
+    <EmbeddedResource Include="Resources\queen_clubs.png" />
+    <EmbeddedResource Include="Resources\queen_diamonds.png" />
+    <EmbeddedResource Include="Resources\queen_hearts.png" />
+    <EmbeddedResource Include="Resources\queen_spades.png" />
+  </ItemGroup>
+
+</Project>
