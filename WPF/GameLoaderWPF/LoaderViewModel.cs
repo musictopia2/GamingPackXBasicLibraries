@@ -1,13 +1,14 @@
-﻿using BasicGameFramework.BasicGameDataClasses;
-using BasicGameFramework.ChooserClasses;
-using BasicGameFramework.CommonInterfaces;
+﻿using BasicGameFrameworkLibrary.BasicGameDataClasses;
+using BasicGameFrameworkLibrary.ChooserClasses;
+using BasicGameFrameworkLibrary.CommonInterfaces;
+using BasicGamingUIWPFLibrary.Bootstrappers;
 using CommonBasicStandardLibraries.CollectionClasses;
-using CommonBasicStandardLibraries.MVVMHelpers;
+using CommonBasicStandardLibraries.MVVMFramework.ViewModels;
 using System.Threading.Tasks;
 using System.Windows;
 namespace GameLoaderWPF
 {
-    public abstract class LoaderViewModel : BaseViewModel, ILoaderVM
+    public abstract class LoaderViewModel : Screen, ILoaderVM
     {
         public GamePackageLoaderPickerCP? PackagePicker { get; set; }
         protected Window? Window;
@@ -25,13 +26,17 @@ namespace GameLoaderWPF
             Mode = EnumGamePackageMode.Production; //can now test the production processes.
         }
         protected abstract void GenerateGameList();
-        protected abstract Window ChooseGame(string gameChosen);
+
+
+        protected abstract IGameBootstrapper ChooseGame(string selectedText);
+
+        //protected abstract Window ChooseGame(string gameChosen);
         private Task PackagePicker_ItemSelectedAsync(int selectedIndex, string selectedText)
         {
 
-            Window newPage = ChooseGame(selectedText);
+            IGameBootstrapper _ = ChooseGame(selectedText); //just needs it period.
             Window!.Close();
-            newPage.Show();
+            
             return Task.CompletedTask;
         }
     }

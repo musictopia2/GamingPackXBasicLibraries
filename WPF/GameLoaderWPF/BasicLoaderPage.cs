@@ -1,14 +1,14 @@
-﻿using BaseGPXWindowsAndControlsCore.BasicControls.ChoicePickers;
+﻿using BasicGamingUIWPFLibrary.BasicControls.ChoicePickers;
 using BasicControlsAndWindowsCore.BasicWindows.Misc;
-using BasicGameFramework.CommonInterfaces;
-using BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses;
+using BasicGameFrameworkLibrary.CommonInterfaces;
+using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses;
 using CommonBasicStandardLibraries.Exceptions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using static CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.BasicDataFunctions;
-using static BaseGPXWindowsAndControlsCore.BaseWindows.SharedWindowFunctions;
-using BasicGameFramework.NetworkingClasses.Misc;
+using static BasicGamingUIWPFLibrary.Helpers.SharedUIFunctions;
+using BasicGameFrameworkLibrary.NetworkingClasses.Misc;
 
 namespace GameLoaderWPF
 {
@@ -23,6 +23,8 @@ namespace GameLoaderWPF
             return new Size(1800, 950);
         }
         private readonly LoaderStartServerClass? _loadServer;
+        //eventually need to do without the separate app for settings.  but not quite yet.
+
         public BasicLoaderPage(IStartUp starts, bool multiplayer)
         {
             Background = Brushes.Navy;

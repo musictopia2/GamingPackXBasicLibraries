@@ -1,5 +1,5 @@
-﻿using BasicGameFramework.ChooserClasses;
-using BasicGameFramework.CommonInterfaces;
+﻿using BasicGameFrameworkLibrary.ChooserClasses;
+using BasicGameFrameworkLibrary.CommonInterfaces;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -11,6 +11,6 @@ namespace GameLoaderWPF
     {
         void Init(Window window, IStartUp starts);
         GamePackageLoaderPickerCP? PackagePicker { get; set; }
-        string Title { get; set; }
+        string DisplayName { get; set; }
     }
 }
