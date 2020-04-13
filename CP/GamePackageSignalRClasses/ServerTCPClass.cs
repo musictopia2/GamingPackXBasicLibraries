@@ -1,6 +1,6 @@
-﻿using BasicGameFramework.NetworkingClasses.Interfaces;
+﻿using BasicGameFrameworkLibrary.NetworkingClasses.Interfaces;
 using System.Threading.Tasks; //most of the time, i will be using asyncs.
-using static BasicGameFramework.NetworkingClasses.Misc.GlobalStaticClasses;
+using static BasicGameFrameworkLibrary.NetworkingClasses.Misc.GlobalStaticClasses;
 namespace GamePackageSignalRClasses
 {
     public class ServerTCPClass : ITCPInfo

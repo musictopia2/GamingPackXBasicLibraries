@@ -1,16 +1,4 @@
-﻿using System;
-using System.Text;
-using CommonBasicStandardLibraries.Exceptions;
-using CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.BasicExtensions;
-using System.Linq;
-using CommonBasicStandardLibraries.BasicDataSettingsAndProcesses;
-using static CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.BasicDataFunctions;
-using CommonBasicStandardLibraries.CollectionClasses;
-using System.Threading.Tasks; //most of the time, i will be using asyncs.
-using fs = CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers.FileHelpers;
-using js = CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers.NewtonJsonStrings; //just in case i need those 2.
-//using static BasicGameFrameworkLibrary.NetworkingClasses.Misc.GlobalStaticClasses;
-using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses;
+﻿using static BasicGameFrameworkLibrary.NetworkingClasses.Misc.GlobalStaticClasses;
 
 namespace BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses
 {
@@ -28,7 +16,7 @@ namespace BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.Global
 
         //will have azure when i am ready to start multiplayer processes
 
-        //public string AzureEndPointAddress { get; set; } = MainAzureHostAddress; //this is default if nothing else is entered.
+        public string AzureEndPointAddress { get; set; } = MainAzureHostAddress; //this is default if nothing else is entered.
         public string HostIPAddress { get; set; } = ""; //if entered, then you can connect to another computer directly.
         public string MainNickName { get; set; } = "";
         public string SecondaryNickName { get; set; } = "";

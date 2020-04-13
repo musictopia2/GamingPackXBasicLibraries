@@ -1,8 +1,7 @@
-﻿using BasicGameFramework.CommonInterfaces;
-using BasicGameFramework.DIContainers;
-using BasicGameFramework.NetworkingClasses.Misc;
-using BasicGameFramework.NetworkingClasses.Sockets;
-using BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses;
+﻿using BasicGameFrameworkLibrary.CommonInterfaces;
+using BasicGameFrameworkLibrary.DIContainers;
+using BasicGameFrameworkLibrary.NetworkingClasses.Misc;
+using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses;
 using CommonBasicStandardLibraries.Exceptions;
 namespace GamePackageSignalRClasses
 {

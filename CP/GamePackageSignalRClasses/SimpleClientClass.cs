@@ -1,5 +1,5 @@
-﻿using BasicGameFramework.NetworkingClasses.Data;
-using BasicGameFramework.NetworkingClasses.Interfaces;
+﻿using BasicGameFrameworkLibrary.NetworkingClasses.Data;
+using BasicGameFrameworkLibrary.NetworkingClasses.Interfaces;
 using CommonBasicStandardLibraries.Exceptions;
 using Microsoft.AspNetCore.SignalR.Client;
 using System;

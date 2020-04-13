@@ -1,5 +1,5 @@
-﻿using BasicGameFramework.NetworkingClasses.Interfaces;
-using BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses;
+﻿using BasicGameFrameworkLibrary.NetworkingClasses.Interfaces;
+using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses;
 using CommonBasicStandardLibraries.Exceptions;
 using System.Threading.Tasks; //most of the time, i will be using asyncs.
 namespace GamePackageSignalRClasses

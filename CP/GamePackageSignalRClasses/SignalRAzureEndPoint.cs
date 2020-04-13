@@ -9,8 +9,8 @@ using CommonBasicStandardLibraries.CollectionClasses;
 using System.Threading.Tasks; //most of the time, i will be using asyncs.
 using fs = CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers.FileHelpers;
 using js = CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers.NewtonJsonStrings; //just in case i need those 2.
-using BasicGameFramework.NetworkingClasses.Interfaces;
-using BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses;
+using BasicGameFrameworkLibrary.NetworkingClasses.Interfaces;
+using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses;
 //i think this is the most common things i like to do
 namespace GamePackageSignalRClasses
 {

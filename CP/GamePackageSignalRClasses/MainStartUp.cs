@@ -1,11 +1,11 @@
-﻿using BasicGameFramework.BasicGameDataClasses;
-using BasicGameFramework.CommonInterfaces;
-using BasicGameFramework.DIContainers;
-using BasicGameFramework.StandardImplementations.CrossPlatform.AutoresumeClasses;
-using BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses;
+﻿using BasicGameFrameworkLibrary.BasicGameDataClasses;
+using BasicGameFrameworkLibrary.CommonInterfaces;
+using BasicGameFrameworkLibrary.DIContainers;
+using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.AutoresumeClasses;
+using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses;
 using CommonBasicStandardLibraries.Exceptions;
-using BasicGameFramework.StandardImplementations.CrossPlatform.DataClasses;
-using static BasicGameFramework.StandardImplementations.CrossPlatform.DataClasses.GlobalScreenClass;
+using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.DataClasses;
+using static BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.DataClasses.GlobalScreenClass;
 namespace GamePackageSignalRClasses
 {
     public class MainStartUp : IStartUp

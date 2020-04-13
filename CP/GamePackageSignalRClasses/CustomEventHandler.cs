@@ -1,4 +1,4 @@
-﻿using BasicGameFramework.NetworkingClasses.Data;
+﻿using BasicGameFrameworkLibrary.NetworkingClasses.Data;
 namespace GamePackageSignalRClasses
 {
     public class CustomEventHandler

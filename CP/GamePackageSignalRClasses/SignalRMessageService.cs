@@ -1,8 +1,8 @@
-﻿using BasicGameFramework.NetworkingClasses.Data;
-using BasicGameFramework.NetworkingClasses.Interfaces;
+﻿using BasicGameFrameworkLibrary.NetworkingClasses.Data;
+using BasicGameFrameworkLibrary.NetworkingClasses.Interfaces;
 using CommonBasicStandardLibraries.CollectionClasses;
 using CommonBasicStandardLibraries.Exceptions;
-using CommonBasicStandardLibraries.MVVMHelpers;
+using CommonBasicStandardLibraries.MVVMFramework.ViewModels;
 using System.Collections.Generic;
 using System.Threading.Tasks; //most of the time, i will be using asyncs.
 using js = CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.JsonSerializers.NewtonJsonStrings; //just in case i need those 2.
@@ -143,13 +143,13 @@ namespace GamePackageSignalRClasses
             output.Body = body;
             return output;
         }
-        private bool _IsEnabled;
+        private bool _isEnabled;
         public bool IsEnabled
         {
-            get { return _IsEnabled; }
+            get { return _isEnabled; }
             set
             {
-                if (SetProperty(ref _IsEnabled, value))
+                if (SetProperty(ref _isEnabled, value))
                 {
                     //can decide what to do when property changes
                     if (value == true)
