@@ -1,16 +1,14 @@
-﻿using BasicGameFramework.BasicGameDataClasses;
-using BasicGameFramework.ChooserClasses;
-using BasicGameFramework.CommonInterfaces;
-using BasicGameFramework.StandardImplementations.XamarinForms.Interfaces;
+﻿using BasicGameFrameworkLibrary.BasicGameDataClasses;
+using BasicGameFrameworkLibrary.ChooserClasses;
+using BasicGameFrameworkLibrary.CommonInterfaces;
+using BasicGameFrameworkLibrary.StandardImplementations.XamarinForms.Interfaces;
 using CommonBasicStandardLibraries.CollectionClasses;
-using CommonBasicStandardLibraries.Exceptions;
-using CommonBasicStandardLibraries.MVVMHelpers;
+using CommonBasicStandardLibraries.MVVMFramework.ViewModels;
 using System.Threading.Tasks;
 using Xamarin.Forms;
-using cc = CommonBasicStandardLibraries.MVVMHelpers;
 namespace GameLoaderXF
 {
-    public abstract class LoaderViewModel : BaseViewModel, ILoaderVM
+    public abstract class LoaderViewModel : Screen, ILoaderVM
     {
         public GamePackageLoaderPickerCP? PackagePicker { get; set; }
         protected IStartUp? Starts;
@@ -18,17 +16,18 @@ namespace GameLoaderXF
         protected CustomBasicList<string> GameList = new CustomBasicList<string>();
         protected INavigation? Navigation;
         protected IGamePlatform? Platform;
-        public cc.Command? ChooseGameCommand { get; set; }
-        private string _GameChosen = "";
+        //public cc.Command? ChooseGameCommand { get; set; }
+        private string _gameChosen = "";
         public string GameChosen
         {
-            get { return _GameChosen; }
+            get { return _gameChosen; }
             set
             {
-                if (SetProperty(ref _GameChosen, value))
+                if (SetProperty(ref _gameChosen, value))
                 {
+                    //if we need something here, rethink.
                     //can decide what to do when property changes
-                    ChooseGameCommand!.ReportCanExecuteChange();
+                    //ChooseGameCommand!.ReportCanExecuteChange();
                 }
             }
         }
@@ -42,13 +41,14 @@ namespace GameLoaderXF
             PackagePicker = new GamePackageLoaderPickerCP();
             PackagePicker.LoadTextList(GameList);
             PackagePicker.ItemSelectedAsync += PackagePicker_ItemSelectedAsync;
-            ChooseGameCommand = new cc.Command(async items =>
-            {
-                await ChooseAsync();
-            }, items => GameChosen != "", this);
+            //ChooseGameCommand = new cc.Command(async items =>
+            //{
+            //    await ChooseAsync();
+            //}, items => GameChosen != "", this);
         }
         protected abstract void GenerateGameList();
-        protected abstract Task ChooseAsync();
+        public bool CanChoose => GameChosen != "";
+        public abstract Task ChooseAsync();
         private Task PackagePicker_ItemSelectedAsync(int selectedIndex, string selectedText)
         {
             GameChosen = selectedText;

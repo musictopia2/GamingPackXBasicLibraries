@@ -1,14 +1,14 @@
-﻿using BaseGPXPagesAndControlsXF.BasicControls.ChoicePickers;
-using BasicGameFramework.CommonInterfaces;
+﻿using BasicGamingUIXFLibrary.BasicControls.ChoicePickers;
+using BasicGameFrameworkLibrary.CommonInterfaces;
 using CommonBasicStandardLibraries.Exceptions;
 using Xamarin.Forms;
-using static BasicGameFramework.StandardImplementations.CrossPlatform.DataClasses.GlobalScreenClass;
-using static BaseGPXPagesAndControlsXF.BasePageProcesses.Pages.SharedPageFunctions;
-using BasicGameFramework.StandardImplementations.XamarinForms.Interfaces;
-using BasicGameFramework.StandardImplementations.XamarinForms.BasicClasses;
-using BasicGameFramework.StandardImplementations.CrossPlatform.DataClasses;
-using BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses;
-using BasicGameFramework.NetworkingClasses.Misc;
+using static BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.DataClasses.GlobalScreenClass;
+using static BasicGamingUIXFLibrary.Helpers.SharedUIFunctions;
+using BasicGameFrameworkLibrary.StandardImplementations.XamarinForms.Interfaces;
+using BasicGameFrameworkLibrary.StandardImplementations.XamarinForms.BasicClasses;
+using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.DataClasses;
+using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses;
+using BasicGameFrameworkLibrary.NetworkingClasses.Misc;
 
 namespace GameLoaderXF
 {
@@ -26,7 +26,7 @@ namespace GameLoaderXF
         public int TotalColumns { get; set; } 
         protected virtual void StartUp() { }
         private readonly LoaderStartServerClass? _loadServer;
-        public BasicLoaderPage(IGamePlatform platform, IStartUp starts, IForceOrientation forces, IScreen screen, bool multiPlayer)
+        public BasicLoaderPage(IGamePlatform platform, IStartUp starts, IForceOrientation forces, IGamePackageScreen screen, bool multiPlayer)
         {
             BackgroundColor = Color.Navy; //do this as well
             Starts = starts; //can't test the orientation part because we don't have igameinfo.  has to take some risks.
@@ -75,7 +75,7 @@ namespace GameLoaderXF
             thisScroll.Orientation = ScrollOrientation.Vertical;
             thisScroll.Content = lists;
             stack.Children.Add(thisScroll); //this is intended to be a first sample.
-            Button button = GetSmallerButton("Launch Selected Game", nameof(ILoaderVM.ChooseGameCommand));
+            Button button = GetSmallerButton("Launch Selected Game", nameof(LoaderViewModel.ChooseAsync));
             stack.Children.Add(button);
             Content = stack;
         }
