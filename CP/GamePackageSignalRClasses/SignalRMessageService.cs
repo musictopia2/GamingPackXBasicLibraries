@@ -1,4 +1,5 @@
-﻿using BasicGameFrameworkLibrary.NetworkingClasses.Data;
+﻿using BasicGameFrameworkLibrary.DIContainers;
+using BasicGameFrameworkLibrary.NetworkingClasses.Data;
 using BasicGameFrameworkLibrary.NetworkingClasses.Interfaces;
 using CommonBasicStandardLibraries.CollectionClasses;
 using CommonBasicStandardLibraries.Exceptions;
@@ -12,22 +13,24 @@ namespace GamePackageSignalRClasses
     {
         private readonly ISignalRInfo _thisTCP;
         private readonly IMessageProcessor _thisMessage;
+        private readonly IGamePackageResolver _resolver;
         private readonly Queue<SentMessage> _messages = new Queue<SentMessage>();
         private readonly object _synLock = new object();
         private SimpleClientClass? _client1;
-        private readonly IOpeningMessenger _thisOpen;
+        private IOpeningMessenger? _thisOpen;
         public string NickName { get; set; } = "";
-        public SignalRMessageService(ISignalRInfo thisTCP, IMessageProcessor thisMessage, IOpeningMessenger thisOpen)
+        public SignalRMessageService(ISignalRInfo thisTCP, IMessageProcessor thisMessage, IGamePackageResolver resolver)
         {
             _thisTCP = thisTCP;
             _thisMessage = thisMessage;
-            _thisOpen = thisOpen;
+            _resolver = resolver;
         }
         public Task InitAsync()
         {
             _client1 = new SimpleClientClass(_thisTCP);
             _client1.OnReceivedMessage += Client1_OnReceivedMessage;
             _client1.NickName = NickName;
+            _thisOpen = _resolver.Resolve<IOpeningMessenger>();
             return Task.CompletedTask;
         }
         private async void Client1_OnReceivedMessage(object sender, CustomEventHandler e)
@@ -35,15 +38,16 @@ namespace GamePackageSignalRClasses
             switch (e.Category)
             {
                 case EnumNetworkCategory.None: //this means client did not find host
-                    await _thisOpen.HostNotFoundAsync(this);
+                    await _thisOpen!.HostNotFoundAsync(this);
                     break;
                 case EnumNetworkCategory.Hosting:
                     IsEnabled = false;
-                    await _thisOpen.HostConnectedAsync(this);
+                    await _thisOpen!.HostConnectedAsync(this);
                     break;
                 case EnumNetworkCategory.Client:
                     IsEnabled = false;
-                    await _thisOpen.ConnectedToHostAsync(this, e.Message); //i think
+
+                    await _thisOpen!.ConnectedToHostAsync(this, e.Message); //i think
                     break;
                 case EnumNetworkCategory.CloseAll:
                     throw new BasicBlankException("I don't think we will close all here.  If I am wrong, rethink");

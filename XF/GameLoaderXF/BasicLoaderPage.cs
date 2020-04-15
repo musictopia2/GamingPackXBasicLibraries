@@ -9,11 +9,16 @@ using BasicGameFrameworkLibrary.StandardImplementations.XamarinForms.BasicClasse
 using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.DataClasses;
 using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses;
 using BasicGameFrameworkLibrary.NetworkingClasses.Misc;
+using CommonBasicStandardLibraries.MVVMFramework.UIHelpers;
+using System.Threading.Tasks;
+using CommonBasicStandardLibraries.MVVMFramework.Commands;
+using System.Reflection;
+using CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.BasicExtensions;
 
 namespace GameLoaderXF
 {
-    public abstract class BasicLoaderPage<VM> : ContentPage
-        where VM : ILoaderVM, new()
+    public abstract class BasicLoaderPage : ContentPage, IUIView
+        
     {
         protected IGamePlatform CustomPlatform;
         protected IStartUp Starts;
@@ -23,17 +28,61 @@ namespace GameLoaderXF
             _forces.ForceOrientation();
             base.OnAppearing();
         }
-        public int TotalColumns { get; set; } 
-        protected virtual void StartUp() { }
-        private readonly LoaderStartServerClass? _loadServer;
-        public BasicLoaderPage(IGamePlatform platform, IStartUp starts, IForceOrientation forces, IGamePackageScreen screen, bool multiPlayer)
+
+        object IUIView.DataContext
         {
+            get => BindingContext;
+            set => BindingContext = value;
+        }
+
+
+        public static bool? Multiplayer { get; set; }
+
+        public int TotalColumns { get; set; }
+
+        protected virtual void StartUp() { }
+
+        Task IUIView.TryCloseAsync()
+        {
+
+            return Task.CompletedTask;
+        }
+
+        Task IUIView.TryActivateAsync()
+        {
+            LoaderViewModel mod = (LoaderViewModel)BindingContext;
+
+            if (mod.PackagePicker!.TextList.Count == 0)
+                throw new BasicBlankException("No items was loaded.  Rethink");
+            _lists.LoadLists(mod.PackagePicker!);
+
+            MethodInfo fun = mod.GetPrivateMethod(nameof(LoaderViewModel.CanChoose));
+            MethodInfo method = mod.GetPrivateMethod(nameof(LoaderViewModel.Choose));
+            _button.Command = new ReflectiveCommand(mod, method, fun);
+
+            return Task.CompletedTask;
+        }
+
+        //most likely no titles.
+
+
+        private readonly LoaderStartServerClass? _loadServer;
+        private readonly ListChooserXF _lists;
+        private readonly Button _button;
+        public BasicLoaderPage(IGamePlatform platform, IStartUp starts, IForceOrientation forces, IGamePackageScreen screen)
+        {
+            _lists = new ListChooserXF();
+            if (Multiplayer.HasValue == false)
+            {
+                throw new BasicBlankException("Must specify whether its single player or not");
+            }
             BackgroundColor = Color.Navy; //do this as well
             Starts = starts; //can't test the orientation part because we don't have igameinfo.  has to take some risks.
             _forces = forces;
             CustomPlatform = platform;
+            _button = GetSmallerButton("Launch Selected Game", "");
             NavigationPage.SetHasNavigationBar(this, false);
-            if (multiPlayer)
+            if (Multiplayer!.Value)
             {
                 if (GlobalDataLoaderClass.HasSettings(true) == false)
                 {
@@ -47,36 +96,35 @@ namespace GameLoaderXF
             }
             screen.CalculateScreens();
             SendFont(new StandardButtonFontClass());
-            VM thisMod = new VM();
             StartUp();
-            BindingContext = thisMod;
-            thisMod.Init(platform, starts, Navigation);
-            ListChooserXF lists = new ListChooserXF();
+
+            
             if (ScreenUsed == EnumScreen.SmallPhone)
             {
-                lists.ItemWidth = 170; //try 150.
-                lists.ItemHeight = 20;
+                _lists.ItemWidth = 170; //try 150.
+                _lists.ItemHeight = 20;
                 if (TotalColumns == 0)
                     TotalColumns = 3;
             }
             else
             {
-                lists.ItemWidth = 303;
-                lists.ItemHeight = 33;
+                _lists.ItemWidth = 303;
+                _lists.ItemHeight = 33;
                 if (TotalColumns == 0)
                     TotalColumns = 4; //can always be tweaked as necessary.
             }
-            if (thisMod.PackagePicker!.TextList.Count == 0)
-                throw new BasicBlankException("No items was loaded.  Rethink");
-            lists.TotalColumns = TotalColumns; //i forgot this too.
-            lists.LoadLists(thisMod.PackagePicker!);
+            _lists.TotalColumns = TotalColumns; //i forgot this too.
             StackLayout stack = new StackLayout();
             ScrollView thisScroll = new ScrollView();
             thisScroll.Orientation = ScrollOrientation.Vertical;
-            thisScroll.Content = lists;
+            thisScroll.Content = _lists;
             stack.Children.Add(thisScroll); //this is intended to be a first sample.
-            Button button = GetSmallerButton("Launch Selected Game", nameof(LoaderViewModel.ChooseAsync));
-            stack.Children.Add(button);
+            
+
+            
+
+
+            stack.Children.Add(_button);
             Content = stack;
         }
     }

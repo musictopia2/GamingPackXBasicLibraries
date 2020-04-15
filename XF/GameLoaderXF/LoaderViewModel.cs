@@ -5,17 +5,19 @@ using BasicGameFrameworkLibrary.StandardImplementations.XamarinForms.Interfaces;
 using CommonBasicStandardLibraries.CollectionClasses;
 using CommonBasicStandardLibraries.MVVMFramework.ViewModels;
 using System.Threading.Tasks;
+using static CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.BasicDataFunctions;
+
 using Xamarin.Forms;
 namespace GameLoaderXF
 {
     public abstract class LoaderViewModel : Screen, ILoaderVM
     {
         public GamePackageLoaderPickerCP? PackagePicker { get; set; }
-        protected IStartUp? Starts;
+        protected IStartUp Starts;
         protected EnumGamePackageMode Mode;
         protected CustomBasicList<string> GameList = new CustomBasicList<string>();
-        protected INavigation? Navigation;
-        protected IGamePlatform? Platform;
+        //protected INavigation Navigation;
+        protected IGamePlatform Platform;
         //public cc.Command? ChooseGameCommand { get; set; }
         private string _gameChosen = "";
         public string GameChosen
@@ -31,29 +33,30 @@ namespace GameLoaderXF
                 }
             }
         }
-        public void Init(IGamePlatform platform, IStartUp starts, INavigation navigation)
+
+
+
+        protected abstract void GenerateGameList();
+        public bool CanChoose () => GameChosen != "";
+        public abstract void Choose();
+        private Task PackagePicker_ItemSelectedAsync(int selectedIndex, string selectedText)
         {
-            Starts = starts;
-            Platform = platform; //needed for something else.
-            Navigation = navigation;
-            Mode = EnumGamePackageMode.Production; //until i have production ready.
+            GameChosen = selectedText;
+
+            return Task.CompletedTask;
+        }
+        //attempt no navigation.
+        public LoaderViewModel()
+        {
+            Starts = cons!.Resolve<IStartUp>();
+            Platform = cons.Resolve<IGamePlatform>();
+
+            //Navigation = navigation;
+            Mode = EnumGamePackageMode.Production; //needs some testing for now unfortunately for the loader.
             GenerateGameList();
             PackagePicker = new GamePackageLoaderPickerCP();
             PackagePicker.LoadTextList(GameList);
             PackagePicker.ItemSelectedAsync += PackagePicker_ItemSelectedAsync;
-            //ChooseGameCommand = new cc.Command(async items =>
-            //{
-            //    await ChooseAsync();
-            //}, items => GameChosen != "", this);
         }
-        protected abstract void GenerateGameList();
-        public bool CanChoose => GameChosen != "";
-        public abstract Task ChooseAsync();
-        private Task PackagePicker_ItemSelectedAsync(int selectedIndex, string selectedText)
-        {
-            GameChosen = selectedText;
-            return Task.CompletedTask;
-        }
-        public LoaderViewModel() { }
     }
 }

@@ -1,34 +1,61 @@
-﻿using BasicGamingUIWPFLibrary.BasicControls.ChoicePickers;
-using BasicControlsAndWindowsCore.BasicWindows.Misc;
-using BasicGameFrameworkLibrary.CommonInterfaces;
+﻿using BasicControlsAndWindowsCore.BasicWindows.Misc;
+using BasicGameFrameworkLibrary.NetworkingClasses.Misc;
 using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses;
+using BasicGamingUIWPFLibrary.BasicControls.ChoicePickers;
 using CommonBasicStandardLibraries.Exceptions;
+using CommonBasicStandardLibraries.MVVMFramework.UIHelpers;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using static CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.BasicDataFunctions;
 using static BasicGamingUIWPFLibrary.Helpers.SharedUIFunctions;
-using BasicGameFrameworkLibrary.NetworkingClasses.Misc;
+using static CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.BasicDataFunctions;
 
 namespace GameLoaderWPF
 {
-    public abstract class BasicLoaderPage<VM> : Window
-        where VM : ILoaderVM, new()
+    public abstract class BasicLoaderPage : Window, IUIView
     {
         public int TotalColumns { get; set; }
         protected virtual void StartUp() { }
-        protected bool Multiplayer { get; }
+
         protected virtual Size DefaultWindowSize()
         {
             return new Size(1800, 950);
         }
+
+        Task IUIView.TryCloseAsync()
+        {
+            Close();
+            return Task.CompletedTask;
+        }
+
+        Task IUIView.TryActivateAsync()
+        {
+            ILoaderVM mod = (ILoaderVM)DataContext;
+            if (mod.PackagePicker!.TextList.Count == 0)
+                throw new BasicBlankException("No items");
+            _list.LoadLists(mod.PackagePicker!);
+            DisplayProcesses();
+            return Task.CompletedTask;
+        }
+
+        protected virtual void DisplayProcesses()
+        {
+
+        }
+
         private readonly LoaderStartServerClass? _loadServer;
         //eventually need to do without the separate app for settings.  but not quite yet.
-
-        public BasicLoaderPage(IStartUp starts, bool multiplayer)
+        public static bool? Multiplayer { get; set; }
+        private readonly ListChooserWPF _list = new ListChooserWPF();
+        public BasicLoaderPage()
         {
+            if (Multiplayer.HasValue == false)
+            {
+                throw new BasicBlankException("Needs to set whether its multiplayer");
+            }
             Background = Brushes.Navy;
-            if (multiplayer)
+            if (Multiplayer!.Value)
             {
                 if (GlobalDataLoaderClass.HasSettings(false) == false)
                 {
@@ -39,28 +66,24 @@ namespace GameLoaderWPF
                     return;
                 }
                 _loadServer = new LoaderStartServerClass(false); //needs same thing for xamarin forms but will be true.
-                _loadServer.PossibleStartServer();
+                _loadServer.PossibleStartServer(); //problem is here.
             }
-            Multiplayer = multiplayer;
             StartUp();
             OS = EnumOS.WindowsDT; //this part is okay.
             var tempSize = DefaultWindowSize();
             WindowHelper.CurrentWindow = this;
             WindowHelper.SetDefaultLocation();
             WindowHelper.SetSize(tempSize.Width, tempSize.Height);
-            VM thisMod = new VM();
-            thisMod.Init(this, starts);
-            ListChooserWPF lists = new ListChooserWPF();
-            lists.Orientation = Orientation.Horizontal;
-            lists.ItemWidth += 50;
+
+            _list.Orientation = Orientation.Horizontal;
+            _list.ItemWidth += 50;
             if (TotalColumns == 0)
                 TotalColumns = 5;
-            lists.TotalColumns = TotalColumns; //this should be fine so i can test something else.
-            if (thisMod.PackagePicker!.TextList.Count == 0)
-                throw new BasicBlankException("No items");
-            lists.LoadLists(thisMod.PackagePicker!);
-            Content = lists;
+            _list.TotalColumns = TotalColumns; //this should be fine so i can test something else.
+
+            Content = _list;
             Show();
         }
+
     }
 }

@@ -55,8 +55,12 @@ namespace BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.Global
             string content = System.IO.File.ReadAllText(path); //has to do standard way this time.
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Formatting = Formatting.Indented;
-            settings.PreserveReferencesHandling = PreserveReferencesHandling.Objects;
-            settings.TypeNameHandling = TypeNameHandling.All;
+
+            //JsonSettingsGlobals.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None; //try this way.  because otherwise, does not work if not everybody is .net core unfortunately.
+            //JsonSettingsGlobals.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.None;
+
+            settings.PreserveReferencesHandling = PreserveReferencesHandling.None;
+            settings.TypeNameHandling = TypeNameHandling.None;
             return JsonConvert.DeserializeObject<GlobalDataModel>(content, settings)!;
         }
         public static string CurrentNickName(GlobalDataModel data) //i think should be able to do without object if i choose.

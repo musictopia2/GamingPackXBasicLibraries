@@ -6,7 +6,7 @@ namespace GameLoaderXF
 {
     public interface ILoaderVM
     {
-        void Init(IGamePlatform platform, IStartUp starts, INavigation navigation);
+        //void Init(IGamePlatform platform, IStartUp starts, INavigation navigation);
         GamePackageLoaderPickerCP? PackagePicker { get; set; }
 
         //not sure what we need here.

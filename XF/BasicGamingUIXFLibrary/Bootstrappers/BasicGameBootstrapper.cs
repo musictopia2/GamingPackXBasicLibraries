@@ -41,6 +41,10 @@ namespace BasicGamingUIXFLibrary.Bootstrappers
         {
             BeginningColorDimensions.GraphicsHeight = 0;
             BeginningColorDimensions.GraphicsWidth = 0;
+            AssemblyLinker.ExtraViewModelLocations.Clear();
+            //AssemblyLinker.ExtraViewModelLocations.Add(Assembly.GetCallingAssembly()!); //needs that too.
+            AssemblyLinker.ExtraViewLocations.Clear();
+            ViewLocator.ManuelVMList.Clear();
             JsonSettingsGlobals.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None; //try this way.  because otherwise, does not work if not everybody is .net core unfortunately.
             JsonSettingsGlobals.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.None; //try this as well.  otherwise, gets hosed with .net core and xamarin forms.
             _startInfo = starts;
@@ -222,7 +226,20 @@ namespace BasicGamingUIXFLibrary.Bootstrappers
             if (view is ContentPage window1)
             {
                 page = window1;
-                Application!.MainPage = page; //hopefully its this simple (?)
+
+
+                //await Application!.MainPage.Navigation.PushAsync(page);
+
+
+                if (_mode == EnumGamePackageMode.Debug)
+                {
+                    Application!.MainPage = page; //hopefully its this simple (?)
+                }
+                else
+                {
+                    await Application!.MainPage.Navigation.PushAsync(page);
+
+                }
                 BeforeLoadingPage(page);
                 //risk not even register the view now since it should already be done elsewhere.
                 //OurContainer!.RegisterSingleton(view); //risked this way.  hopefully i don't regret this.

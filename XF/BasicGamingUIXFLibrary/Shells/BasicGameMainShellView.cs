@@ -33,6 +33,7 @@ namespace BasicGamingUIXFLibrary.Shells
             UIPlatform.ShowMessageAsync = (async message =>
             {
                 await DisplayAlert("Message", message, "Okay");
+                customPlatform.ResetPopups();
             });
             UIPlatform.ShowError = (async message =>
             {
