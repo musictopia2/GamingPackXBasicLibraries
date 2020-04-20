@@ -14,7 +14,14 @@ namespace BasicGameFrameworkLibrary.BasicEventModels
 
         public static async Task SendGameOverAsync(this IAggregatorContainer aggregator)
         {
-            await aggregator.Aggregator.PublishAsync(new GameOverEventModel());
+            try
+            {
+                await aggregator.Aggregator.PublishAsync(new GameOverEventModel()); //problem seems to be whoever handles the game over in this case.
+            }
+            catch (Exception ex)
+            {
+                UIPlatform.ShowError(ex.Message);
+            }
         }
         public static async Task RefreshBindingsAsync(this IUIView view, IEventAggregator aggregator)
         {

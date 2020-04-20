@@ -28,6 +28,7 @@ namespace BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.Extens
 
         public static void RegisterNonSavedClasses<V>(this IGamePackageRegister thisContainer)
         {
+            //thisContainer.RegisterSingleton<ListContainer, ListContainer>(); //maybe try it here now.
             thisContainer.RegisterSingleton<IPlayOrder, PlayOrderClass>();
             Assembly thisAssembly = Assembly.GetAssembly(typeof(V))!;
             CustomBasicList<Type> thisList = thisAssembly.GetTypes().Where(items => items.HasAttribute<SingletonGameAttribute>()).ToCustomBasicList();
@@ -58,6 +59,7 @@ namespace BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.Extens
             where R : IRegularCard, new()
         {
             thisContainer.RegisterNonSavedClasses<V>();
+            
             thisContainer.RegisterType<DeckObservablePile<R>>(true); //i think
             thisContainer.RegisterType<RegularCardsBasicShuffler<R>>(true); //if i needed a custom shuffler, rethink.
             if (registerCommonProportions == true)

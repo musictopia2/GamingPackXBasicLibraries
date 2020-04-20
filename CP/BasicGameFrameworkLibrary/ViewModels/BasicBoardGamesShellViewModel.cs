@@ -7,6 +7,7 @@ using BasicGameFrameworkLibrary.MultiplayerClasses.MiscHelpers;
 using BasicGameFrameworkLibrary.MultiplayerClasses.SavedGameClasses;
 using BasicGameFrameworkLibrary.TestUtilities;
 using CommonBasicStandardLibraries.Exceptions;
+using CommonBasicStandardLibraries.MVVMFramework.UIHelpers;
 using System.Threading.Tasks; //most of the time, i will be using asyncs.
 namespace BasicGameFrameworkLibrary.ViewModels
 {
@@ -42,6 +43,7 @@ namespace BasicGameFrameworkLibrary.ViewModels
             {
                 await CloseSpecificChildAsync(ColorScreen);
             }
+            
             ColorScreen = MainContainer.Resolve<IBeginningColorViewModel>();
             await LoadScreenAsync(ColorScreen);
 

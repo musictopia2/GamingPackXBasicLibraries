@@ -4,7 +4,9 @@ using BasicGameFrameworkLibrary.CommandClasses;
 using BasicGameFrameworkLibrary.CommonInterfaces;
 using BasicGameFrameworkLibrary.DIContainers;
 using BasicGameFrameworkLibrary.MiscProcesses;
+using BasicGameFrameworkLibrary.MultiplayerClasses.MiscHelpers;
 using BasicGameFrameworkLibrary.NetworkingClasses.Misc;
+using BasicGameFrameworkLibrary.RegularDeckOfCards;
 using BasicGameFrameworkLibrary.StandardImplementations.XamarinForms.Interfaces;
 using BasicGameFrameworkLibrary.TestUtilities;
 using BasicGameFrameworkLibrary.ViewModelInterfaces;
@@ -45,6 +47,11 @@ namespace BasicGamingUIXFLibrary.Bootstrappers
             //AssemblyLinker.ExtraViewModelLocations.Add(Assembly.GetCallingAssembly()!); //needs that too.
             AssemblyLinker.ExtraViewLocations.Clear();
             ViewLocator.ManuelVMList.Clear();
+            MiscDelegates.ComputerChooseColorsAsync = null;
+            MiscDelegates.ContinueColorsAsync = null;
+            MiscDelegates.FillRestColors = null;
+            MiscDelegates.GetMiscObjectsToReplace = null;
+            RegularSimpleCard.ClearSavedList(); //looks like this was not good enough.
             JsonSettingsGlobals.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.None; //try this way.  because otherwise, does not work if not everybody is .net core unfortunately.
             JsonSettingsGlobals.TypeNameHandling = Newtonsoft.Json.TypeNameHandling.None; //try this as well.  otherwise, gets hosed with .net core and xamarin forms.
             _startInfo = starts;

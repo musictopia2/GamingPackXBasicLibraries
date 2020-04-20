@@ -4,6 +4,7 @@ using BasicGameFrameworkLibrary.CommandClasses;
 using BasicGameFrameworkLibrary.CommonInterfaces;
 using BasicGameFrameworkLibrary.DIContainers;
 using BasicGameFrameworkLibrary.MiscProcesses;
+using BasicGameFrameworkLibrary.RegularDeckOfCards;
 using BasicGameFrameworkLibrary.ViewModelInterfaces;
 using CommonBasicStandardLibraries.Exceptions;
 using CommonBasicStandardLibraries.Messenging;
@@ -51,6 +52,8 @@ namespace BasicGameFrameworkLibrary.ViewModels
 
         protected override async Task ActivateAsync()
         {
+            RegularSimpleCard.ClearSavedList(); //just in case.
+            
             await base.ActivateAsync();
             //go ahead and load the body anyways.  later can rethink.
             //MainVM = GetMainViewModel();

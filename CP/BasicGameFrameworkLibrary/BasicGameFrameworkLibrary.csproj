@@ -39,7 +39,6 @@
     <Folder Include="NetworkingClasses\Misc\" />
     <Folder Include="NetworkingClasses\SocketClasses\" />
     <Folder Include="Resources\" />
-    <Folder Include="RegularDeckOfCards\" />
     <Folder Include="SolitaireClasses\BasicVMInterfaces\" />
     <Folder Include="SolitaireClasses\Cards\" />
     <Folder Include="SolitaireClasses\GraphicsObservable\" />

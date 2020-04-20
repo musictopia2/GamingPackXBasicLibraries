@@ -3,6 +3,7 @@ using BasicGameFrameworkLibrary.BasicDrawables.Dictionary;
 using BasicGameFrameworkLibrary.CommonInterfaces;
 using BasicGameFrameworkLibrary.DIContainers;
 using CommonBasicStandardLibraries.Exceptions;
+using CommonBasicStandardLibraries.MVVMFramework.UIHelpers;
 using Newtonsoft.Json;
 using SkiaSharp;
 using System.Linq;
@@ -73,8 +74,18 @@ namespace BasicGameFrameworkLibrary.RegularDeckOfCards
         public EnumSuitList GetSuit => Suit;
         public EnumColorList GetColor => Color;
         public int Section { get; private set; }
+
         protected static IRegularDeckInfo? ThisInfo; //use dependency injection to populate this.
         protected static IRegularAceCalculator? ThisAce;
+
+        //public static Clear
+        public static void ClearSavedList()
+        {
+            ThisInfo = null;
+            ThisAce = null;
+            _list.Clear();
+        }
+
         [JsonIgnore]
         public IGamePackageResolver? MainContainer { get; set; }
         int ISimpleValueObject<int>.ReadMainValue => (int)Value;
@@ -133,10 +144,10 @@ namespace BasicGameFrameworkLibrary.RegularDeckOfCards
 
         //for regular deck of cards, populating has to be done completely differently now.
 
-        public static void ClearSavedList()
-        {
-            _list.Clear();
-        }
+        //public static void ClearSavedList()
+        //{
+        //    _list.Clear();
+        //}
 
         private static readonly DeckRegularDict<RegularSimpleCard> _list = new DeckRegularDict<RegularSimpleCard>();
 
@@ -145,6 +156,7 @@ namespace BasicGameFrameworkLibrary.RegularDeckOfCards
             SetObjects();
             if (_list.Count == 0)
             {
+                //await UIPlatform.ShowMessageAsync("Populating cards");
                 GenerateList();
             }
             var item = _list.GetSpecificItem(chosen);
@@ -183,7 +195,7 @@ namespace BasicGameFrameworkLibrary.RegularDeckOfCards
                             card.Value = Value;
                             card.Section = x;
                             card.CardType = EnumCardTypeList.Regular;
-                            if (Suit == EnumSuitList.Clubs || Suit == EnumSuitList.Spades)
+                            if (card.Suit == EnumSuitList.Clubs || card.Suit == EnumSuitList.Spades)
                             {
                                 card.Color = EnumColorList.Black;
                             }

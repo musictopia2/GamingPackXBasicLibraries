@@ -13,6 +13,7 @@ using BasicGameFrameworkLibrary.MultiplayerClasses.LoadingClasses;
 using BasicGameFrameworkLibrary.MultiplayerClasses.MainGameInterfaces;
 using BasicGameFrameworkLibrary.MultiplayerClasses.MiscHelpers;
 using BasicGameFrameworkLibrary.MultiplayerClasses.SavedGameClasses;
+using BasicGameFrameworkLibrary.RegularDeckOfCards;
 using BasicGameFrameworkLibrary.TestUtilities;
 using BasicGameFrameworkLibrary.ViewModelInterfaces;
 using CommonBasicStandardLibraries.AdvancedGeneralFunctionsAndProcesses.BasicExtensions;
@@ -20,6 +21,7 @@ using CommonBasicStandardLibraries.CollectionClasses;
 using CommonBasicStandardLibraries.Exceptions;
 using CommonBasicStandardLibraries.Messenging;
 using CommonBasicStandardLibraries.MVVMFramework.Conductors;
+using CommonBasicStandardLibraries.MVVMFramework.UIHelpers;
 using System;
 using System.Linq;
 using System.Reflection;
@@ -69,6 +71,7 @@ namespace BasicGameFrameworkLibrary.ViewModels
         protected BasicData BasicData { get; }
         protected override async Task ActivateAsync()
         {
+            RegularSimpleCard.ClearSavedList();
             GlobalHelpers.LoadGameScreenAsync = LoadGameScreenAsync;
             if (BasicData.GamePackageMode == EnumGamePackageMode.None)
             {
@@ -309,15 +312,16 @@ namespace BasicGameFrameworkLibrary.ViewModels
         /// <returns></returns>
         async Task IHandleAsync<GameOverEventModel>.HandleAsync(GameOverEventModel message) //done.
         {
+
             //i propose just having the extra button for new game that appears when the game is over.
             CommandContainer.ClearLists(); //try this too.
             ReplaceGame(); //i think here it should replace the game. not so for rounds.
+            //replacegame is where the problem is at.  for clients, that seems to happen as well.
             if (BasicData.MultiPlayer == true && BasicData.Client == true)
             {
                 return; //because only host can choose new game unless its single player game.
             }
             await _save.DeleteGameAsync();
-            
             if (MainVM == null)
             {
                 throw new BasicBlankException("The main view model was not even available.  Rethink");
@@ -349,10 +353,12 @@ namespace BasicGameFrameworkLibrary.ViewModels
         }
         protected virtual void ReplaceGame()
         {
+            //return;
             _ = MainContainer.ReplaceObject<IViewModelData>(); //this has to be replaced before the game obviously.
             Assembly assembly = Assembly.GetAssembly(GetType())!;
             CustomBasicList<Type> thisList = assembly.GetTypes().Where(items => items.HasAttribute<AutoResetAttribute>()).ToCustomBasicList();
             thisList.AddRange(GetAdditionalObjectsToReset());
+            
             ClearSubscriptions();
             
             Type? type = MainContainer.LookUpType<IStandardRollProcesses>();
@@ -368,6 +374,8 @@ namespace BasicGameFrameworkLibrary.ViewModels
             {
                 thisList.AddRange(MiscDelegates.GetMiscObjectsToReplace.Invoke());
             }
+
+
             MainContainer.ResetSeveralObjects(thisList);
             _mainGame = MainContainer.ReplaceObject<IBasicGameProcesses<P>>(); //hopefully this works
         }
