@@ -1,141 +1,170 @@
-﻿//using BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses;
-//using CommonBasicStandardLibraries.Attributes;
-//using CommonBasicStandardLibraries.Exceptions;
-//using CommonBasicStandardLibraries.MVVMHelpers;
-//using CommonBasicStandardLibraries.MVVMHelpers.Interfaces;
-//using CommonBasicStandardLibraries.MVVMHelpers.SpecializedViewModels;
-//using System.Threading.Tasks; //most of the time, i will be using asyncs.
-//using static BasicGameFramework.NetworkingClasses.Misc.GlobalStaticClasses;
-//namespace BasicGameFramework.StandardImplementations.CrossPlatform.GlobalClasses
-//{
-//    public class GlobalDataViewModel : DataEntryViewModel
-//    {
-//        private readonly GlobalDataLoaderClass _procs;
-//        private GlobalDataModel? _data;
-//        private EnumServerMode _ServerMode = EnumServerMode.AzureHosting; //default with azure.  easiest anyways.
-//        public EnumServerMode ServerMode
-//        {
-//            get { return _ServerMode; }
-//            set
-//            {
-//                if (SetProperty(ref _ServerMode, value))
-//                {
-//                    _data!.ServerMode = value;
-//                }
-//            }
-//        }
-//        private string _MainNickName = "";
-//        [Required]
-//        public string MainNickName
-//        {
-//            get { return _MainNickName; }
-//            set
-//            {
-//                if (SetProperty(ref _MainNickName, value))
-//                {
-//                    _data!.MainNickName = value;
-//                    OnPropertyChanged(nameof(CurrentNickName));
-//                }
+﻿using CommonBasicStandardLibraries.Attributes;
+using CommonBasicStandardLibraries.Exceptions;
+using CommonBasicStandardLibraries.MVVMFramework.UIHelpers;
+using CommonBasicStandardLibraries.MVVMFramework.ViewModels;
+using System.Net;
+using System.Net.Sockets;
+using System.Threading.Tasks;
+using static BasicGameFrameworkLibrary.NetworkingClasses.Misc.GlobalStaticClasses;
+namespace BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.GlobalClasses
+{
 
-//            }
-//        }
-//        private string _SecondaryNickName = "";
-//        public string SecondaryNickName
-//        {
-//            get { return _SecondaryNickName; }
-//            set
-//            {
-//                if (SetProperty(ref _SecondaryNickName, value))
-//                {
-//                    _data!.SecondaryNickName = value;
-//                    OnPropertyChanged(nameof(CurrentNickName));
-//                }
-//            }
-//        }
-//        private string _AzureEndPointAddress = MainAzureHostAddress;
-//        [Required]
-//        public string AzureEndPointAddress
-//        {
-//            get { return _AzureEndPointAddress; }
-//            set
-//            {
-//                if (SetProperty(ref _AzureEndPointAddress, value))
-//                {
-//                    _data!.AzureEndPointAddress = value;
-//                }
-//            }
-//        }
-//        private string _HostIPAddress = "";
-//        public string HostIPAddress
-//        {
-//            get { return _HostIPAddress; }
-//            set
-//            {
-//                if (SetProperty(ref _HostIPAddress, value))
-//                {
-//                    _data!.HostIPAddress = value;
-//                }
 
-//            }
-//        }
-//        public string CurrentNickName => GlobalDataLoaderClass.CurrentNickName(_data!);
-//        private bool CanProcess(EnumServerMode mode)
-//        {
-//            //this shows whether this mode can be processed or not.
-//            if (mode == EnumServerMode.HomeHosting)
-//            {
-//                return CanConnectToHomeGameServer;
-//            }
-//            if (mode == EnumServerMode.LocalHosting)
-//            {
-//                return !string.IsNullOrWhiteSpace(HostIPAddress); //if you entered something for this, then you can choose local hosting
-//            }
-//            return true; //well see.
-//        }
-//        public Command<EnumServerMode> ChangeServerOptionsCommand { get; set; }
-//        public Command MainNickCommand { get; set; }
-//        public Command DefaultAzureCommand { get; set; }
-//        public Command ClearAzureCommand { get; set; }
-//        public GlobalDataViewModel(GlobalDataLoaderClass procs, ISimpleUI ui)
-//        {
-//            ThisMessage = ui;
-//            _procs = procs;
-//            ChangeServerOptionsCommand = new Command<EnumServerMode>(mode =>
-//            {
-//                ServerMode = mode;
-//            }, mode =>
-//            {
-//                return CanProcess(mode);
-//            }, this);
-//            MainNickCommand = new Command(async items =>
-//            {
-//                SecondaryNickName = "";
-//                await ProcessSave(null!);
-//            }, items =>
-//            {
-//                return !string.IsNullOrWhiteSpace(SecondaryNickName);
-//            }, this);
-//            DefaultAzureCommand = new Command(items =>
-//            {
-//                AzureEndPointAddress = MainAzureHostAddress; //set back to default one.
-//            }, items => true, this);
-//            ClearAzureCommand = new Command(items => AzureEndPointAddress = "", items => true, this);
-//        }
-//        public async Task InitAsync()
-//        {
-//            _data = await _procs.OpenAsync();
-//            MainNickName = _data.MainNickName;
-//            SecondaryNickName = _data.SecondaryNickName;
-//            ServerMode = _data.ServerMode;
-//            HostIPAddress = _data.HostIPAddress;
-//            AzureEndPointAddress = _data.AzureEndPointAddress;
-//        }
-//        protected override async Task ProcessSave(object thisObj)
-//        {
-//            if (_data == null)
-//                throw new BasicBlankException("Should had loaded data.  Rethink");
-//            await _procs.SaveAsync(_data); //i think
-//            ThisMessage.CloseProgram();
-//        }
-//    }
-//}
+    public class GlobalDataViewModel : Screen
+    {
+        public static GlobalDataViewModel? GlobalData { get; set; }
+        public GlobalDataViewModel(GlobalDataLoaderClass procs)
+        {
+            _procs = procs;
+            LocalIPAddress = GetIPAddress();
+            DisplayName = "Game Package Global Settings";
+            GlobalData = this;
+        }
+
+        private string GetIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new BasicBlankException("Unable to find ip address.  Rethink");
+        }
+
+        protected override async Task ActivateAsync(IUIView view)
+        {
+            _data = await _procs.OpenAsync();
+            MainNickName = _data.MainNickName;
+            SecondaryNickName = _data.SecondaryNickName;
+            ServerMode = _data.ServerMode;
+            HostIPAddress = _data.HostIPAddress;
+            AzureEndPointAddress = _data.AzureEndPointAddress;
+            await base.ActivateAsync(view);
+        }
+        
+        public bool CanSave()
+        {
+            return IsValid;
+        }
+        public async Task SaveAsync()
+        {
+            if (_data == null)
+            {
+                throw new BasicBlankException("Should had loaded data.  Rethink");
+            }
+            await _procs.SaveAsync(_data); //i think
+            UIPlatform.ExitApp();
+        }
+
+        private readonly GlobalDataLoaderClass _procs;
+        private GlobalDataModel? _data;
+        private EnumServerMode _serverMode = EnumServerMode.AzureHosting; //default with azure.  easiest anyways.
+        public EnumServerMode ServerMode
+        {
+            get { return _serverMode; }
+            set
+            {
+                if (SetProperty(ref _serverMode, value))
+                {
+                    _data!.ServerMode = value;
+                }
+            }
+        }
+        private string _mainNickName = "";
+        [Required]
+        public string MainNickName
+        {
+            get { return _mainNickName; }
+            set
+            {
+                if (SetProperty(ref _mainNickName, value))
+                {
+                    _data!.MainNickName = value;
+                    OnPropertyChanged(nameof(CurrentNickName));
+                }
+
+            }
+        }
+        private string _secondaryNickName = "";
+        public string SecondaryNickName
+        {
+            get { return _secondaryNickName; }
+            set
+            {
+                if (SetProperty(ref _secondaryNickName, value))
+                {
+                    _data!.SecondaryNickName = value;
+                    OnPropertyChanged(nameof(CurrentNickName));
+                }
+            }
+        }
+        private string _azureEndPointAddress = MainAzureHostAddress;
+        [Required]
+        public string AzureEndPointAddress
+        {
+            get { return _azureEndPointAddress; }
+            set
+            {
+                if (SetProperty(ref _azureEndPointAddress, value))
+                {
+                    _data!.AzureEndPointAddress = value;
+                }
+            }
+        }
+        private string _hostIPAddress = "";
+        public string HostIPAddress
+        {
+            get { return _hostIPAddress; }
+            set
+            {
+                if (SetProperty(ref _hostIPAddress, value))
+                {
+                    _data!.HostIPAddress = value;
+                }
+
+            }
+        }
+        public string CurrentNickName => GlobalDataLoaderClass.CurrentNickName(_data!);
+
+        private bool CanProcess(EnumServerMode mode)
+        {
+            //this shows whether this mode can be processed or not.
+            if (mode == EnumServerMode.HomeHosting)
+            {
+                return CanConnectToHomeGameServer;
+            }
+            if (mode == EnumServerMode.LocalHosting)
+            {
+                return !string.IsNullOrWhiteSpace(HostIPAddress); //if you entered something for this, then you can choose local hosting
+            }
+            return true; //well see.
+        }
+        public bool CanChangeServerOptions(EnumServerMode mode) => CanProcess(mode);
+        
+        public void ChangeServerOptions(EnumServerMode mode)
+        {
+            ServerMode = mode;
+        }
+
+        public void DefaultAzure()
+        {
+            AzureEndPointAddress = MainAzureHostAddress; //set back to default one.
+        }
+        public void ClearAzure()
+        {
+            AzureEndPointAddress = "";
+        }
+        public bool CanBackToMainNickName => !string.IsNullOrWhiteSpace(SecondaryNickName);
+        public async Task BackToMainNickNameAsync()
+        {
+            SecondaryNickName = "";
+            await SaveAsync();
+        }
+
+        public string LocalIPAddress { get; private set; }
+        
+    }
+}

@@ -164,8 +164,13 @@ namespace BaseMahjongTilesCP
         {
             MainGraphics!.DrawDefaultRectangles(dc, rect_Card, thisPaint);
         }
+        public bool NeedsBorders { get; set; } = true;
         public void DrawBorders(SKCanvas dc, SKRect rect_Card)
         {
+            if (NeedsBorders == false)
+            {
+                return; //because its possible that there will be no borders
+            }
             SKPaint thisPaint = MiscHelpers.GetStrokePaint(SKColors.Black, 3); //i think 3 is enough.
             MainGraphics!.DrawDefaultRectangles(dc, rect_Card, thisPaint);
             if (MainGraphics.IsSelected == true)

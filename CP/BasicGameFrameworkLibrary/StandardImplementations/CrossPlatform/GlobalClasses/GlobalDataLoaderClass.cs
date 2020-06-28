@@ -42,17 +42,33 @@ namespace BasicGameFrameworkLibrary.StandardImplementations.CrossPlatform.Global
         }
         public async Task<GlobalDataModel> OpenAsync()
         {
+            
+
+
+            
             if (HasSettings(IsXamarinForms) == false)
                 return new GlobalDataModel(); //just return a new one period.
             string path = GetPath(IsXamarinForms);
-            return await fs.RetrieveSavedObjectAsync<GlobalDataModel>(path);
+            GlobalDataModel output = new GlobalDataModel();
+            await Task.Run(() =>
+            {
+                JsonSerializerSettings settings = new JsonSerializerSettings();
+                settings.Formatting = Formatting.Indented;
+                settings.PreserveReferencesHandling = PreserveReferencesHandling.None;
+                settings.TypeNameHandling = TypeNameHandling.None;
+                string content = File.ReadAllText(path);
+                output = JsonConvert.DeserializeObject<GlobalDataModel>(content, settings)!;
+            });
+            return output;
+
+            //return await fs.RetrieveSavedObjectAsync<GlobalDataModel>(path);
         }
         public static GlobalDataModel Open(bool isXamarinForms) //if i made async then would require breaking interface.  don't want that.
         {
             if (HasSettings(isXamarinForms) == false)
                 throw new BasicBlankException("No settings.  This should not have been allowed in this situation");
             string path = GetPath(isXamarinForms);
-            string content = System.IO.File.ReadAllText(path); //has to do standard way this time.
+            string content = File.ReadAllText(path); //has to do standard way this time.
             JsonSerializerSettings settings = new JsonSerializerSettings();
             settings.Formatting = Formatting.Indented;
 

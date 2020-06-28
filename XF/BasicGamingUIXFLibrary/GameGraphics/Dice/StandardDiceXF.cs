@@ -7,13 +7,14 @@ using BasicGameFrameworkLibrary.GameGraphicsCP.Interfaces;
 using SkiaSharp;
 using SkiaSharp.Views.Forms;
 using SkiaSharpGeneralLibrary.Interfaces;
+using System;
 using System.Windows.Input;
 using Xamarin.Forms;
 using static CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.BasicDataFunctions;
 using cs = CommonBasicStandardLibraries.BasicDataSettingsAndProcesses.SColorString;
 namespace BasicGamingUIXFLibrary.GameGraphics.Dice
 {
-    public sealed class StandardDiceXF : ContentView, ISelectableObject, IRepaintControl
+    public sealed class StandardDiceXF : ContentView, ISelectableObject, IRepaintControl, IDisposable
     {
         private StandardDiceGraphicsCP? _mains; //just keep mains
         private readonly SKCanvasView _thisDraw;
@@ -130,7 +131,7 @@ namespace BasicGamingUIXFLibrary.GameGraphics.Dice
             }
             set
             {
-                base.SetValue(CommandParameterProperty, value);
+                SetValue(CommandParameterProperty, value);
             }
         }
         private static void CommandParameterPropertyChanged(BindableObject bindable, object oldValue, object newValue) { }
@@ -143,7 +144,7 @@ namespace BasicGamingUIXFLibrary.GameGraphics.Dice
             }
             set
             {
-                base.SetValue(IsSelectedProperty, value);
+                SetValue(IsSelectedProperty, value);
             }
         }
         private static void IsSelectedPropertyChanged(BindableObject bindable, object oldValue, object newValue)
@@ -227,6 +228,14 @@ namespace BasicGamingUIXFLibrary.GameGraphics.Dice
             BeforePainting(); //i think.  if i am wrong, rethink.
             _mains!.ActualWidthHeight = e.Info.Height;
             _mains!.DrawDice(e.Surface.Canvas);
+        }
+
+        public void Dispose()
+        {
+            if (_thisDraw != null)
+            {
+                _thisDraw.PaintSurface -= DrawPaintSurface;
+            }
         }
     }
 }

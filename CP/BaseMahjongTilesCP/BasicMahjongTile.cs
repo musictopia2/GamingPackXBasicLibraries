@@ -31,16 +31,16 @@ namespace BaseMahjongTilesCP
             IsCharacter = 3,
             IsNoNumber = 0
         }
-        private int _Index; // this is needed to get the proper image when it comes to drawing.
+        private int _index; // this is needed to get the proper image when it comes to drawing.
         public int Index
         {
             get
             {
-                return _Index;
+                return _index;
             }
             set
             {
-                if (SetProperty(ref _Index, value) == true) { }
+                if (SetProperty(ref _index, value) == true) { }
             }
         }
         public int NumberUsed { get; set; }

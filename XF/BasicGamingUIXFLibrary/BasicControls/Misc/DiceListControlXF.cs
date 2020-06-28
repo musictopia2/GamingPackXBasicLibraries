@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using Xamarin.Forms;
 namespace BasicGamingUIXFLibrary.BasicControls.Misc
 {
-    public class DiceListControlXF<D> : ContentView
+    public class DiceListControlXF<D> : ContentView, IDisposable
         where D : IStandardDice, new()
     {
         private DiceCup<D>? _thisCup;
@@ -177,6 +177,14 @@ namespace BasicGamingUIXFLibrary.BasicControls.Misc
                     _thisStack.Children.Remove(firstCon);
                     _thisStack.Children.Insert(e.NewStartingIndex, firstCon);
                 }
+        }
+
+        public void Dispose()
+        {
+            if (_diceList != null)
+            {
+                _diceList!.CollectionChanged -= DiceList_CollectionChanged;
+            }
         }
     }
 }
